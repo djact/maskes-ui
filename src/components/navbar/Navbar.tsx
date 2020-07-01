@@ -25,18 +25,23 @@ class AppNavbar extends Component<ILoginModalProps> {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={NavLink} to="/">
-              Home
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/get-help">
-              Get Help
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/volunteer">
-              Get Involved
-            </Nav.Link>
+            {!hasLogin && (
+              <React.Fragment>
+                <Nav.Link as={NavLink} to="/">
+                  Home
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/get-help">
+                  Get help
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/volunteer">
+                  Get involved
+                </Nav.Link>
+              </React.Fragment>
+            )}
+
             {hasLogin && (
-              <Nav.Link as={NavLink} to="/my-account">
-                Account Info
+              <Nav.Link as={NavLink} to="/my-requests">
+                Manage requests
               </Nav.Link>
             )}
           </Nav>

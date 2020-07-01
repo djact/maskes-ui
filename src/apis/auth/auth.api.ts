@@ -31,7 +31,7 @@ export function login({ username, password }): Promise<Account> {
   console.log('Requesting to login', username, password);
   if (!isLogin) {
     return delayPromise(2000).then(() => {
-      if (Math.random() > 0.7) {
+      if (Math.random() > 0.8) {
         return Promise.reject({
           errorMessage: 'Fails to log in',
         });

@@ -73,7 +73,7 @@ class LoginModal extends Component<ILoginModalProps, ILoginModalState> {
     function onSuccess(this: any) {
       this.props.hideLoginModal();
       this.props.onLogin();
-      this.props.goTo('/my-account');
+      this.props.goTo('/my-requests');
     }
   }
 
