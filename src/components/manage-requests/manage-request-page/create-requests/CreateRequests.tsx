@@ -21,7 +21,6 @@ const RequestTableList = ({ goTo }) => (
 );
 
 const mapStateToProps = (state, props) => {
-  console.log('inside mapstatetoProps in CreateRequests', props);
   return {
     goTo: props.history.push,
   };
