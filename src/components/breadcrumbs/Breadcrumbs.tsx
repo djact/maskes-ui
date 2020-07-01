@@ -6,10 +6,15 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-class AppBreadcrumb extends Component<any> {
+interface IAppBreadcrumb {
+  goTo(newRoute: string): any;
+  params: String[];
+  showBreadcrumbs?: boolean;
+}
+
+class AppBreadcrumb extends Component<IAppBreadcrumb> {
   render() {
     const { goTo, showBreadcrumbs, params } = this.props;
-    console.log('inside render', showBreadcrumbs, params);
 
     return (
       showBreadcrumbs && (
@@ -38,7 +43,6 @@ class AppBreadcrumb extends Component<any> {
 
 const mapStateToProps = (state, props) => {
   const params = _.omitBy(props.match.params, _.isUndefined);
-  console.log('inside app breadcrumb', params);
   return {
     showBreadcrumbs: _.size(params) > 1,
     params: _.values(params),
