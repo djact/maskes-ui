@@ -8,15 +8,18 @@ import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { openLoginModal } from '../global-modals/login/login-modal.actions';
+import { getNavId } from '../root/action/';
 
 interface ILoginModalProps {
   hasLogin?: boolean;
-  openLoginModal?(): any;
+  onOpenLoginModal?(): any;
+  onGetNavId(arg: string): any;
 }
 
 class AppNavbar extends Component<ILoginModalProps> {
+
   render() {
-    const { hasLogin, openLoginModal } = this.props;
+    const { hasLogin, onOpenLoginModal, onGetNavId } = this.props;
     return (
       <Navbar bg="light" expand="lg">
         <Navbar.Brand as={NavLink} to="/">
@@ -30,17 +33,17 @@ class AppNavbar extends Component<ILoginModalProps> {
                 <Nav.Link as={NavLink} to="/">
                   Home
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/get-help">
+                <Nav.Link as={NavLink} to="/get-help" onClick={() => onGetNavId("/get-help")}>
                   Get help
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/volunteer">
+                <Nav.Link as={NavLink} to="/volunteer" onClick={() => onGetNavId("/volunteer")}>
                   Get involved
                 </Nav.Link>
               </React.Fragment>
             )}
 
             {hasLogin && (
-              <Nav.Link as={NavLink} to="/my-requests">
+              <Nav.Link as={NavLink} to="/my-requests" onClick={() => onGetNavId("/my-requests")}>
                 Manage requests
               </Nav.Link>
             )}
@@ -50,7 +53,7 @@ class AppNavbar extends Component<ILoginModalProps> {
           {!hasLogin && (
             <Button
               className="LoginButton"
-              onClick={openLoginModal}
+              onClick={onOpenLoginModal}
               variant="outline-secondary"
             >
               Login
@@ -66,12 +69,17 @@ class AppNavbar extends Component<ILoginModalProps> {
   }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
     hasLogin: state.auth.hasLogin || false,
   };
 };
 
-export default connect(mapStateToProps, {
-  openLoginModal,
-})(AppNavbar);
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetNavId: (navId) => dispatch(getNavId(navId)),
+    onOpenLoginModal: () => dispatch(openLoginModal()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavbar);
