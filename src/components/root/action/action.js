@@ -6,3 +6,10 @@ export const getNavId = (navId) => {
         navId: navId,
     }
 }
+
+export const getSubNavId = (subNavId) => {
+    return {
+        type: actionTypes.GET_SUB_NAVID,
+        subNavId: subNavId,
+    }
+}

@@ -30,7 +30,7 @@ class AppNavbar extends Component<ILoginModalProps> {
           <Nav className="mr-auto">
             {!hasLogin && (
               <React.Fragment>
-                <Nav.Link as={NavLink} to="/">
+                <Nav.Link as={NavLink} to="/" onClick={() => onGetNavId("/")}>
                   Home
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/get-help" onClick={() => onGetNavId("/get-help")}>
