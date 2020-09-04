@@ -23,6 +23,7 @@ const DonationForm = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         create(formData, reimbursementId);
+        setOnDonate(false);
     }
 
     return (

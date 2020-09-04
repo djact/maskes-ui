@@ -166,7 +166,7 @@ export const createDonation = (formData, reimbursementId) => {
             .then(response => {
                 const donationId = response.data.id
                 dispatch(createDonationSuccess(response.status));
-                dispatch(setAlert(`Successfully create donation #${donationId}.`, "success"));
+                dispatch(setAlert(`Successfully create donation #${donationId}. Thank you for your support!`, "success"));
                 dispatch(fetchDonation(reimbursementId));
             })
             .catch(error => {

@@ -111,7 +111,6 @@ const Donation = (props) => {
                                         toggleShowEditModal={(e) => toggleShowModal(e, idx, "update")}
                                         toggleShowDeleteModal={(e) => toggleShowModal(e, idx, "delete")}
                                     />
-                                    {/* <BsThreeDots onClick={(e) => toggleShowModal(e, idx, "update")} className="edit-dots" /> */}
                                 </Aux>
                             }</td>
                         </tr>)}
