@@ -43,7 +43,7 @@ const Comment = (props) => {
                 ...cm,
                 key: i,
                 onEdit: false,
-                collapsed: false,
+                collapsed: true,
                 comment_content: cm.comment_content,
                 reply_content: ""
             })
