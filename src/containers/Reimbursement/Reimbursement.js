@@ -74,6 +74,7 @@ const Reimbursement = (props) => {
                                 <OverlayTrigger
                                     trigger="click"
                                     placement="top"
+                                    rootClose
                                     overlay={
                                         <Popover id="popover-basic">
                                             <Popover.Title as="h3">
