@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../../../shared/axios';
+import { fetchVolunteerRequests } from '../../../../containers/Volunteer/VolunteerList/store/actions/actions';
+import { fetchRequests } from '../../../../containers/Requests/RequestList/store/actions/actions';
 
 export const openAuthModal = () => ({
     type: actionTypes.OPEN_AUTH_MODAL,
@@ -123,6 +125,19 @@ export const onAuth = (first_name, last_name, display_name, email, password, has
                             localStorage.setItem('user_id', res.data.user_id)
                             dispatch(authSuccess(res.data));
                             dispatch(hideAuthModal())
+                            if (res.data.is_volunteer) {
+                                const searchValues = {
+                                    date: "",
+                                    familySize: 0,
+                                    location: "",
+                                    requestId: "",
+                                    urgent: ""
+                                };
+                                dispatch(fetchVolunteerRequests(1, searchValues));
+                            }
+                            if (res.data.is_requester) {
+                                dispatch(fetchRequests(1));
+                            }
                             // dispatch(checkAuthTimeout(expiresIn))
                         })
                         .catch(err => {
