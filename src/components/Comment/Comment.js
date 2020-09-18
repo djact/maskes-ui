@@ -16,7 +16,7 @@ const Comment = (props) => {
 
     const { comments, create, update, remove,
         create_reply, update_reply, remove_reply,
-        loading, userId, profile, fetchProfile } = props
+        loading, userId, fetchProfile } = props
 
     const history = useHistory();
 
