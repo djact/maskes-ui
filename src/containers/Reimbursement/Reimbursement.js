@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Aux from '../../hoc/Aux/Aux';
-import { Table, Button, Image, Popover, OverlayTrigger, Badge, Spinner } from 'react-bootstrap';
+import { Spinner, Button } from 'react-bootstrap';
 import ReimbursementForm from '../../components/Form/ReimbursementForm';
 import { requestReimbursement, fetchReimbursement, updateReimbursement, deleteReimbursement } from './store/actions/actions';
 import DeleteModal from './DeleteModal';
+import ReimbursementInfo from '../Reimbursement/ReimbursementInfo';
 import './Reimbursement.css'
 
 
@@ -61,40 +61,11 @@ const Reimbursement = (props) => {
                 remove={handleDelete}
                 onEdit={onEdit}
                 setOnEdit={setOnEdit}
-            /> : <Aux>
-                    <Badge variant={reimbursement.status === 'In Process' ? "warning" : "success"} className='mb-2'>{reimbursement.status}</Badge>
-
-                    <Table size="sm" responsive='sm'>
-                        <tbody>
-                            <tr><td>Reimbursement #</td><td>{reimbursement.id}</td></tr>
-                            <tr><td>Total Cost</td><td>{reimbursement.total_cost}</td></tr>
-                            <tr><td>Request Amount</td><td>{reimbursement.amount}</td></tr>
-                            <tr><td>Note</td><td>{reimbursement.volunteer_notes}</td></tr>
-                            <tr>
-                                <OverlayTrigger
-                                    trigger="click"
-                                    placement="top"
-                                    rootClose
-                                    overlay={
-                                        <Popover id="popover-basic">
-                                            <Popover.Title as="h3">
-                                                <a style={{ display: "table-cell" }}
-                                                    rel="noopener noreferrer"
-                                                    href={reimbursement.receipt_photo}
-                                                    target="_blank">Receipt Photo</a>
-                                            </Popover.Title>
-
-                                            <Popover.Content>
-                                                <Image src={reimbursement.receipt_photo} thumbnail fluid />
-                                            </Popover.Content>
-                                        </Popover>
-                                    }
-                                >
-                                    <td className="receipt-link">Receipt</td>
-                                </OverlayTrigger>
-                            </tr>
-                        </tbody>
-                    </Table>
+            /> : <div>
+                    <ReimbursementInfo
+                        publicMode={false}
+                        reimbursement={reimbursement}
+                    />
                     {reimbursement.status !== 'Completed' &&
                         <div>
                             <Button
@@ -109,7 +80,8 @@ const Reimbursement = (props) => {
                                 }}
                             >Cancel</Button>
                         </div>}
-                </Aux>
+                </div>
+
 
         )
     }

@@ -4,7 +4,7 @@ import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 const EditDonationModal = (props) => {
     const { handleClose, show, update,
         donationAmount, donationStatus,
-        reimbursementId, donationId } = props;
+        requestId, donationId } = props;
 
     const [formData, setFormData] = useState({
         update_amount: 0,
@@ -20,7 +20,7 @@ const EditDonationModal = (props) => {
 
     const handleSubmit = (event) => {
         // event.preventDefault();
-        update(formData, reimbursementId, donationId);
+        update(formData, requestId, donationId);
     }
 
     const onChange = (event) => {

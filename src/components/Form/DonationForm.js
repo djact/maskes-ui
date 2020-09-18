@@ -5,7 +5,7 @@ import { Form, InputGroup, Button } from 'react-bootstrap';
 const DonationForm = (props) => {
 
     const { setOnDonate,
-        reimbursementId,
+        requestId,
         create } = props
 
     const [formData, setFormData] = useState({
@@ -22,7 +22,7 @@ const DonationForm = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        create(formData, reimbursementId);
+        create(formData, requestId);
         setOnDonate(false);
     }
 
