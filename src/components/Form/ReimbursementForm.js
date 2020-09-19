@@ -9,7 +9,7 @@ const ReimbursementForm = (props) => {
     })
 
     const { formData, setFormData,
-        onEdit, setOnEdit,
+        onEdit, setOnEdit, setCreateReimbursement,
         create, update } = props
 
     const onChange = (event) => {
@@ -76,6 +76,7 @@ const ReimbursementForm = (props) => {
             <Button type="submit" className="mt-3 mb-3 mr-sm-2 create-reimbursement-button">
                 Submit
             </Button>
+            {!onEdit && <Button variant='secondary' onClick={() => setCreateReimbursement(false)}>Close</Button>}
             {onEdit ? <Button variant="secondary" className='mt-3 mb-3'
                 onClick={() => setOnEdit(false)}>Cancel</Button> : null}
 

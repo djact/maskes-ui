@@ -136,8 +136,10 @@ const MyVolunteerDetail = (props) => {
                     || (volunteer.status === 'Delivered'
                         && <Reimbursement
                             volunteerId={volunteer.id}
+                            requestId={volunteer.request_detail.id}
                             reimbursement_detail={volunteer.reimbursement_detail}
                             reimbursementId={reimbursementId}
+                            skip={volunteer.skip_reimbursement}
                         />)
                 }
 
