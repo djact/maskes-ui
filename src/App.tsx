@@ -21,6 +21,9 @@ import CreateRequest from './components/Request/CreateRequest/CreateRequest';
 import RequestDetail from './containers/Requests/RequestDetail/RequestDetail';
 import RequestList from './containers/Requests/RequestList/RequestList';
 
+import RequestSupportForm from './components/Form/RequestForm/RequestSupportForm';
+import OfferSupportForm from './components/Form/RequestForm/OfferSupportForm';
+
 import VolunteerList from './containers/Volunteer/VolunteerList/VolunteerList';
 import VolunteerDetail from './containers/Volunteer/VolunteerDetail/VolunteerDetail';
 import MyVolunteerList from './containers/Volunteer/MyVolunteer/MyVolunteerList';
@@ -77,6 +80,8 @@ const App = ({ isAuthenticated, authCheckLoginState, is_requester, is_volunteer 
       <Route exact path="/email-reset-confirm/:uid/:token" component={ConfirmEmail}></Route>
       {is_requester && isAuthenticated ? requester_routes : null}
       {is_volunteer && isAuthenticated ? volunteer_routes : null}
+      <Route exact path='/request-support' component={RequestSupportForm} />
+      <Route exact path='/offer-support' component={OfferSupportForm} />
     </Layout>
   )
 };
