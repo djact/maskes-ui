@@ -1,7 +1,8 @@
 import React from 'react';
 import { Field, ErrorMessage } from 'formik';
-import { Form, OverlayTrigger, Popover } from 'react-bootstrap';
-import TextError from './TextError';
+import { Form } from 'react-bootstrap';
+import TextError from './shared/TextError';
+import LabelTip from './shared/LabelTip';
 const TextArea = (props) => {
 
     const { label, name, placeholder, description, tip, required, ...rest } = props;
@@ -9,23 +10,7 @@ const TextArea = (props) => {
     return (
 
         <Form.Group controlId={name}>
-            <Form.Label>
-                <OverlayTrigger
-                    placement='top'
-                    overlay={
-                        tip ? <Popover>
-                            <Popover.Content>
-                                {tip}
-                            </Popover.Content>
-                        </Popover> : () => <div></div>
-                    }
-                >
-                    <div>
-                        {label}
-                        {required && <span className='required'>*</span>}
-                    </div>
-                </OverlayTrigger>
-            </Form.Label>
+            <LabelTip label={label} tip={tip} required={required} />
 
             <Form.Text className='my-3'>
                 {description}

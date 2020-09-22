@@ -1,16 +1,14 @@
 import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 import { Form } from 'react-bootstrap';
+import LabelTip from './shared/LabelTip';
 
 const Checkboxes = (props) => {
 
-    const { label, name, options, required, ...rest } = props;
+    const { label, name, options, required, tip, ...rest } = props;
     return (
         <Form.Group controlId={name}>
-            <Form.Label>
-                {label}
-                {required && <span className='required'>*</span>}
-            </Form.Label>
+            <LabelTip label={label} tip={tip} required={required} />
 
             <Field name={name} {...rest}>
                 {props => {

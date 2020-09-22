@@ -1,9 +1,9 @@
 import React from 'react';
-import Input from './Input';
-import TextArea from './TextArea';
-import Select from './Select';
-import Radios from './Radios';
-import Checkboxes from './Checkboxes';
+import Input from '../Input';
+import TextArea from '../TextArea';
+import Select from '../Select';
+import Radios from '../Radios';
+import Checkboxes from '../Checkboxes';
 
 const FormikControl = (props) => {
     const { control, ...rest } = props;

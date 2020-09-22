@@ -1,17 +1,14 @@
 import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 import { Form } from 'react-bootstrap';
-import TextError from './TextError';
-
+import TextError from './shared/TextError';
+import LabelTip from './shared/LabelTip';
 const TextArea = (props) => {
-    const { label, name, options, description, required, ...rest } = props;
+    const { label, name, options, description, tip, required, ...rest } = props;
 
     return (
         <Form.Group controlId={name}>
-            <Form.Label>
-                {label}
-                {required && <span className='required'>*</span>}
-            </Form.Label>
+            <LabelTip label={label} tip={tip} required={required} />
 
             <Form.Text className='my-3'>
                 {description}

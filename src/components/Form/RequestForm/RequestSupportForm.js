@@ -6,8 +6,8 @@ import './RequestForm.css';
 
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import * as FormOptions from './subcomponents/FormOptions';
-import FormikControl from './subcomponents/FormikControl';
+import * as FormOptions from './subcomponents/shared/FormOptions';
+import FormikControl from './subcomponents/shared/FormikControl';
 
 const initialValues = {
     contact_preference: '',

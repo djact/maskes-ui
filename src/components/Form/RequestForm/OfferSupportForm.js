@@ -3,7 +3,7 @@ import { Container, Button } from 'react-bootstrap';
 
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import FormikControl from './subcomponents/FormikControl';
+import FormikControl from './subcomponents/shared/FormikControl';
 
 import './RequestForm.css';
 

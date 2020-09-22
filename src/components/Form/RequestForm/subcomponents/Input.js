@@ -1,17 +1,15 @@
 import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 import { Form, Col } from 'react-bootstrap';
-import TextError from './TextError';
+import TextError from './shared/TextError';
+import LabelTip from './shared/LabelTip';
 const Input = (props) => {
 
-    const { label, name, placeholder, description, required, asCol, ...rest } = props;
+    const { label, name, placeholder, description, tip, required, asCol, ...rest } = props;
 
     return (
         <Form.Group as={asCol && Col} controlId={name}>
-            <Form.Label>
-                {label}
-                {required && <span className='required'>*</span>}
-            </Form.Label>
+            <LabelTip label={label} tip={tip} required={required} />
 
             <Form.Text className='my-3'>
                 {description}
