@@ -16,7 +16,7 @@ const Radios = (props) => {
                 {props => {
                     const { field } = props;
                     // console.log('[RADIO FIELD PROPS]', props);
-                    return options.map((option) => (
+                    return options.map((option, index) => (
                         <Form.Check
                             // order is important 
                             {...field}
@@ -24,7 +24,7 @@ const Radios = (props) => {
                             key={option.key}
                             name={name}
                             type='radio'
-                            id={option.value}
+                            id={name + index}
                             value={option.value}
                             checked={field.value === option.value}
                             label={option.key}
