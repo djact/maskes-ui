@@ -26,7 +26,6 @@ const Radios = (props) => {
                             type='radio'
                             id={name + index}
                             value={option.value}
-                            checked={field.value === option.value}
                             label={option.key}
                         />
                     ))
