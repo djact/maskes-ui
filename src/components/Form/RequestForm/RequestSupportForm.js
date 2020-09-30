@@ -32,16 +32,14 @@ const initialValues = {
     offer_resources: '',
 }
 
-const onSubmit = (values, actions) => {
-    console.log('[FORM DATA]', values);
-    console.log('[ON SUBMIT PROPS]', actions);
-    actions.setSubmitting(false);
-    actions.resetForm();
-}
-
 const maskPhoneNumberHandler = (e) => {
     const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
+}
+
+const maskZipCodeHandler = (e) => {
+    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,4})/);
+    e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
 }
 
 const validationSchema = Yup.object({
@@ -59,10 +57,10 @@ const validationSchema = Yup.object({
     household_number: Yup.number('Please input a number').required('Required').max(99, 'Please enter less than 2 digits').min(1, 'Household size is at least 1'),
     urgency: Yup.string().required('Required'),
     financial_support: Yup.string().required('Required'),
-    special_info: Yup.string().required('Required').max(1000, 'Please enter less than 1000 characters'),
+    special_info: Yup.string().required('Required').max(2000, 'Please enter less than 2000 characters'),
     share_info: Yup.string().required('Required'),
     need_checkin: Yup.string().required('Required'),
-    extra_info: Yup.string().required('Required').max(2000, 'Please enter less than 2000 characters'),
+    extra_info: Yup.string().required('Required').max(1000, 'Please enter less than 1000 characters'),
     ma_pod_setup: Yup.string().required('Required'),
     offer_resources: Yup.string().required('Required').max(1000, 'Please enter less than 1000 characters'),
 });
@@ -71,6 +69,23 @@ const validationSchema = Yup.object({
 const RequestSupportForm = (props) => {
     // eslint-disable-next-line
     const [formValues, setFormValues] = useState(null)
+
+    const { createRequest, history } = props;
+
+    const onSubmit = async (values, actions) => {
+        const getBool = (value) => value === "Yes"
+        values.agree_transfer = getBool(values.agree_transfer)
+        values.share_info = getBool(values.share_info)
+        values.ma_pod_setup = getBool(values.ma_pod_setup)
+        values.prefered_food = values.prefered_food.toString()
+
+        createRequest(values);
+        // console.log('[FORM DATA]', values);
+        // console.log('[ON SUBMIT PROPS]', actions);
+
+        // actions.setSubmitting(false);
+        // actions.resetForm();
+    }
 
     return (
         <Container className='mt-4 px-5'>
@@ -141,6 +156,10 @@ const RequestSupportForm = (props) => {
                                 asCol
                                 control='input'
                                 name='zip_code'
+                                onChange={(e) => {
+                                    maskZipCodeHandler(e);
+                                    handleChange(e);
+                                }}
                                 required
                             />
                         </Row>
