@@ -31,10 +31,10 @@ export const locations = [
     { key: 'Woodinville', value: 'Woodinville' },
 ];
 export const food_preference = [
-    { key: "Ingredients to cook with", value: "Ingredients to cook with" },
-    { key: "Reheat and serve/frozen", value: "Reheat and serve/frozen" },
-    { key: "Low Prep (like sandwiches, pasta)", value: "Low Prep (like sandwiches, pasta)" },
-    { key: "Zero - Prep", value: "Zero - Prep" },
+    { key: "Ingredients to cook with", value: "Cook" },
+    { key: "Reheat and serve/frozen", value: "Reheat" },
+    { key: "Low Prep (like sandwiches, pasta)", value: "Low-Prep" },
+    { key: "Zero - Prep", value: "Instant" },
 ]
 
 export const contact_preference = [
@@ -50,7 +50,7 @@ export const urgency = [
 ]
 
 export const financial_support = [
-    { key: 'Request support with your delivery items', value: 'Request support' },
+    { key: 'Request support with your delivery items', value: 'Request Support' },
     { key: 'Pay with your own money (coordinate with delivery person)', value: 'Self-Pay' },
     { key: 'Pay with your own money and donate to support your community members', value: 'Self-Pay and Donate' },
 ]
