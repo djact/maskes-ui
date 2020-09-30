@@ -11,24 +11,6 @@ input + label {
     font-size: small;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
-select {
-    display: block;
-    width: 70%;
-    /* height: 2rem; */
-    padding: 6px, 12px;
-    margin-right: 5px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
 .request-form-layout {
     justify-content: center;
 }
@@ -42,10 +24,6 @@ select {
     width: 100%;
     margin-top: .25rem;
     font-size: 80%;
-}
-
-.phone-number-list {
-    display: flex;
 }
 
 .required {
