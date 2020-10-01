@@ -233,7 +233,6 @@ export const skipReimbursement = (skip_reimbursement, volunteerId, requestId) =>
 
         axios.put(url, formData)
             .then(response => {
-                console.log(response.data)
                 dispatch(skipReimbursementSuccess(response.data.status));
                 dispatch(fetchVolunteerDetail(volunteerId));
                 dispatch(setAlert(`Reimbursement skipped.`, "success"));
