@@ -5,6 +5,8 @@ import ReimbursementForm from '../../components/Form/ReimbursementForm';
 import { requestReimbursement, fetchReimbursement, updateReimbursement, deleteReimbursement, skipReimbursement } from './store/actions/actions';
 import DeleteModal from './DeleteModal';
 import ReimbursementInfo from '../Reimbursement/ReimbursementInfo';
+import ConfirmSkipModal from '../../components/Modal/ConfirmModal/ConfirmModal';
+import PropTypes from 'prop-types';
 import './Reimbursement.css'
 
 
@@ -21,6 +23,7 @@ const Reimbursement = (props) => {
     const [createReimbursement, setCreateReimbursement] = useState();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const [reimbursementFormData, setReimbursementFormData] = useState(reimbursement_detail ? {
         total_cost: reimbursement_detail.total_cost,
@@ -47,8 +50,6 @@ const Reimbursement = (props) => {
     const handleSkip = () => {
         skipReimbursement(true, volunteerId, requestId)
     }
-
-    console.log(skip)
 
     useEffect(() => {
         if (reimbursement_detail) {
@@ -93,6 +94,14 @@ const Reimbursement = (props) => {
     }
 
     return !skip ? <div>
+        <ConfirmSkipModal
+            showConfirmModal={showConfirmModal}
+            closeModalHandler={() => setShowConfirmModal(false)}
+            confirmHandler={handleSkip}
+            label={`Skip Reimbursement`}
+            message={`Please confirm that you do not need a reimbursement and 
+            want to donate your total shopping cost`}
+        />
         <DeleteModal
             showDeleteModal={showDeleteModal}
             closeModalHandler={() => setShowDeleteModal(false)}
@@ -104,7 +113,7 @@ const Reimbursement = (props) => {
             <Button
                 variant='link'
                 size='sm'
-                onClick={handleSkip}
+                onClick={() => setShowConfirmModal(true)}
             >Click here to Skip</Button>
         </h6>}
     </div> :
@@ -116,6 +125,26 @@ const Reimbursement = (props) => {
         </div>
 
 };
+
+Reimbursement.propTypes = {
+    requestReimbursement: PropTypes.func,
+    fetchReimbursement: PropTypes.func,
+    updateReimbursement: PropTypes.func,
+    deleteReimbursement: PropTypes.func,
+    skipReimbursement: PropTypes.func,
+
+    reimbursement_detail: PropTypes.object,
+    reimbursement: PropTypes.object,
+
+    loading: PropTypes.bool,
+    skip: PropTypes.bool,
+
+    reimbursementId: PropTypes.number,
+    requestId: PropTypes.number,
+    volunteerId: PropTypes.number,
+
+    supporter_name: PropTypes.string,
+}
 
 const mapStateToProps = (state) => {
     return {
