@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Aux from '../../hoc/Aux/Aux';
-import { Table, Button, Image, Popover, OverlayTrigger, Badge, Spinner } from 'react-bootstrap';
+import { Spinner, Button } from 'react-bootstrap';
 import ReimbursementForm from '../../components/Form/ReimbursementForm';
-import { requestReimbursement, fetchReimbursement, updateReimbursement, deleteReimbursement } from './store/actions/actions';
+import { requestReimbursement, fetchReimbursement, updateReimbursement, deleteReimbursement, skipReimbursement } from './store/actions/actions';
 import DeleteModal from './DeleteModal';
+import ReimbursementInfo from '../Reimbursement/ReimbursementInfo';
+import ConfirmSkipModal from '../../components/Modal/ConfirmModal/ConfirmModal';
+import PropTypes from 'prop-types';
 import './Reimbursement.css'
 
 
 const Reimbursement = (props) => {
 
     const { requestReimbursement, fetchReimbursement,
-        updateReimbursement, deleteReimbursement,
+        updateReimbursement, deleteReimbursement, skipReimbursement,
         volunteerId, reimbursement_detail, reimbursement, loading,
-        reimbursementId
+        reimbursementId, skip, requestId, supporter_name
     } = props;
 
     const [onEdit, setOnEdit] = useState(false);
 
+    const [createReimbursement, setCreateReimbursement] = useState();
+
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const [reimbursementFormData, setReimbursementFormData] = useState(reimbursement_detail ? {
         total_cost: reimbursement_detail.total_cost,
@@ -42,12 +47,15 @@ const Reimbursement = (props) => {
         setShowDeleteModal(false);
     };
 
+    const handleSkip = () => {
+        skipReimbursement(true, volunteerId, requestId)
+    }
+
     useEffect(() => {
         if (reimbursement_detail) {
             fetchReimbursement(reimbursement_detail.id)
         }
     }, [reimbursement_detail, fetchReimbursement, deleteReimbursement, volunteerId, reimbursementId]);
-
 
     let display = <Spinner animation="border" style={{ marginLeft: '40%' }} />
 
@@ -61,40 +69,12 @@ const Reimbursement = (props) => {
                 remove={handleDelete}
                 onEdit={onEdit}
                 setOnEdit={setOnEdit}
-            /> : <Aux>
-                    <Badge variant={reimbursement.status === 'In Process' ? "warning" : "success"} className='mb-2'>{reimbursement.status}</Badge>
-
-                    <Table size="sm" responsive='sm'>
-                        <tbody>
-                            <tr><td>Reimbursement #</td><td>{reimbursement.id}</td></tr>
-                            <tr><td>Total Cost</td><td>{reimbursement.total_cost}</td></tr>
-                            <tr><td>Request Amount</td><td>{reimbursement.amount}</td></tr>
-                            <tr><td>Note</td><td>{reimbursement.volunteer_notes}</td></tr>
-                            <tr>
-                                <OverlayTrigger
-                                    trigger="click"
-                                    placement="top"
-                                    rootClose
-                                    overlay={
-                                        <Popover id="popover-basic">
-                                            <Popover.Title as="h3">
-                                                <a style={{ display: "table-cell" }}
-                                                    rel="noopener noreferrer"
-                                                    href={reimbursement.receipt_photo}
-                                                    target="_blank">Receipt Photo</a>
-                                            </Popover.Title>
-
-                                            <Popover.Content>
-                                                <Image src={reimbursement.receipt_photo} thumbnail fluid />
-                                            </Popover.Content>
-                                        </Popover>
-                                    }
-                                >
-                                    <td className="receipt-link">Receipt</td>
-                                </OverlayTrigger>
-                            </tr>
-                        </tbody>
-                    </Table>
+                setCreateReimbursement={setCreateReimbursement}
+            /> : <div>
+                    <ReimbursementInfo
+                        publicMode={false}
+                        reimbursement={reimbursement}
+                    />
                     {reimbursement.status !== 'Completed' &&
                         <div>
                             <Button
@@ -109,31 +89,74 @@ const Reimbursement = (props) => {
                                 }}
                             >Cancel</Button>
                         </div>}
-                </Aux>
-
+                </div>
         )
     }
 
-    return <div>
+    return !skip ? <div>
+        <ConfirmSkipModal
+            showConfirmModal={showConfirmModal}
+            closeModalHandler={() => setShowConfirmModal(false)}
+            confirmHandler={handleSkip}
+            label={`Skip Reimbursement`}
+            message={`Please confirm that you do not need a reimbursement and 
+            want to donate your total shopping cost`}
+        />
         <DeleteModal
             showDeleteModal={showDeleteModal}
             closeModalHandler={() => setShowDeleteModal(false)}
             deleteHandler={handleDelete} />
         <h5 style={{ fontWeight: 'bold' }}>Reimbursement Infomation</h5>
-        {display}
-    </div>
+
+        {(!reimbursement ? createReimbursement : true) ? display : <Button className='create-reimbursement-button' onClick={() => setCreateReimbursement(true)}>Create Reimbursement</Button>}
+        {!reimbursement && <h6>Don't need reimbursement?
+            <Button
+                variant='link'
+                size='sm'
+                onClick={() => setShowConfirmModal(true)}
+            >Click here to Skip</Button>
+        </h6>}
+    </div> :
+        <div className='thank-you-note'>
+            <h5 className='thank-you-note-header'>Thank you for your support {supporter_name}!</h5>
+            <p>Because of your generous donation, we will be able to help families overcome their hardship during COVID-19.</p>
+            <p>We will send you updates over the next few months so that you know exactly what is happening with your donation, and the impact that we have been able to create together.</p>
+            <p>Thank you again for being a part of our Mutual Aid family!</p>
+        </div>
 
 };
+
+Reimbursement.propTypes = {
+    requestReimbursement: PropTypes.func,
+    fetchReimbursement: PropTypes.func,
+    updateReimbursement: PropTypes.func,
+    deleteReimbursement: PropTypes.func,
+    skipReimbursement: PropTypes.func,
+
+    reimbursement_detail: PropTypes.object,
+    reimbursement: PropTypes.object,
+
+    loading: PropTypes.bool,
+    skip: PropTypes.bool,
+
+    reimbursementId: PropTypes.number,
+    requestId: PropTypes.number,
+    volunteerId: PropTypes.number,
+
+    supporter_name: PropTypes.string,
+}
 
 const mapStateToProps = (state) => {
     return {
         loading: state.reimbursement.loading,
         reimbursement: state.reimbursement.reimbursement,
         error: state.reimbursement.error,
+        supporter_name: state.auth.name,
     }
 }
 
 export default connect(mapStateToProps, {
     requestReimbursement, fetchReimbursement,
-    updateReimbursement, deleteReimbursement
+    updateReimbursement, deleteReimbursement,
+    skipReimbursement
 })(Reimbursement);

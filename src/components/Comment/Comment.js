@@ -16,7 +16,7 @@ const Comment = (props) => {
 
     const { comments, create, update, remove,
         create_reply, update_reply, remove_reply,
-        loading, userId, profile, fetchProfile } = props
+        loading, userId, fetchProfile } = props
 
     const history = useHistory();
 
@@ -91,7 +91,7 @@ const Comment = (props) => {
 
     if (!loading && comments && comments.results.length > 0) {
         display = cms.map((comment, index) => <CommentSUI key={comment.id}>
-            <CommentSUI.Avatar as='a' src={profile.image} />
+            <CommentSUI.Avatar as='a' src={comment.author_image} />
             <CommentSUI.Content>
                 <CommentSUI.Author as='a' onClick={() => history.push(`/profile/${comment.author}`)}>{comment.author_name}</CommentSUI.Author>
                 <CommentSUI.Metadata>

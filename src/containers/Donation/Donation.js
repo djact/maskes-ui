@@ -13,9 +13,9 @@ import moment from 'moment';
 import './Donation.css';
 
 const Donation = (props) => {
-    const { donation, loading, reimbursementId,
+    const { donation, loading, requestId, budget,
         supporter, supporterId,
-        reimbursementStatus, reimbursementAmount,
+        reimbursementStatus,
         onDonate, setOnDonate,
         fetchDonation, createDonation,
         updateDonation, deleteDonation, userId } = props;
@@ -25,8 +25,10 @@ const Donation = (props) => {
     const [dns, setDns] = useState([])
 
     useEffect(() => {
-        fetchDonation(reimbursementId)
-    }, [fetchDonation, reimbursementId])
+        if (requestId) {
+            fetchDonation(requestId)
+        }
+    }, [fetchDonation, requestId])
 
     useEffect(() => {
         setDns(donation ?
@@ -58,16 +60,16 @@ const Donation = (props) => {
 
     if (donation && !loading && dns) {
         const total_donation = dns.reduce((t, d) => t + parseInt(d.amount), 0);
-        const total_reimbursement = parseInt(reimbursementAmount);
-        let progress = Math.floor((total_donation / total_reimbursement) * 100);
+        const bg = parseInt(budget);
+        let progress = Math.floor((total_donation / bg) * 100);
         progress = (progress > 100) ? 100 : progress
         const donation_progress = <ProgressBar variant={progress === 100 ? "success" : "primary"} animated now={progress} label={`${progress}%`} />;
         display = (
             <Aux>
                 <h5 style={{ fontWeight: 'bold' }}>Donation Infomation</h5>
                 <Badge variant={reimbursementStatus === 'In Process' ? "warning" : "success"} className='mb-2'>{reimbursementStatus}</Badge>
-                <h6 className="my-">Delivery Supporter <Button variant="link" onClick={() => history.push(`/profile/${supporterId}`)}>{supporter}</Button></h6>
-                <h5 style={{ display: "flex" }}>Amount Needed: ${reimbursementAmount}</h5>
+                {supporter ? <h6 className="my-">Delivery Supporter <Button variant="link" onClick={() => history.push(`/profile/${supporterId}`)}>{supporter}</Button></h6> : null}
+                <h5 style={{ display: "flex" }}>Budget: ${budget}</h5>
                 {donation_progress}
                 <Table size="sm" responsive='sm'>
                     <thead>
@@ -98,12 +100,12 @@ const Donation = (props) => {
                                         update={updateDonation}
                                         donationAmount={d.amount}
                                         donationStatus={d.status === "Sent"}
-                                        reimbursementId={reimbursementId}
+                                        requestId={requestId}
                                     />
                                     <DeleteDonationModal
                                         showDeleteModal={d.showDelete}
                                         closeModalHandler={(e) => toggleShowModal(e, idx, "delete")}
-                                        deleteHandler={() => deleteDonation(d.id, reimbursementId)}
+                                        deleteHandler={() => deleteDonation(d.id, requestId)}
                                         label={`donation ${d.amount}`}
                                     />
 
@@ -131,7 +133,7 @@ const Donation = (props) => {
                     onClick={() => setOnDonate(true)}
                 >Donate! <FaDonate className='mb-1' /></Button>
                 : <DonationForm
-                    reimbursementId={reimbursementId}
+                    requestId={requestId}
                     setOnDonate={setOnDonate}
                     create={createDonation}
                 />

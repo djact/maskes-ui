@@ -198,5 +198,51 @@ export const requestReimbursement = (formData, volunteerId) => {
     }
 };
 
+//SKIP REIMBURSEMENT
+export const skipReimbursementStart = () => {
+    return {
+        type: actionTypes.SKIP_REIMBURSEMENT_START
+    };
+}
+
+export const skipReimbursementSuccess = (status) => {
+    return {
+        type: actionTypes.SKIP_REIMBURSEMENT_SUCCESS,
+        status: status
+    };
+}
+
+export const skipReimbursementFail = (error) => {
+    return {
+        type: actionTypes.SKIP_REIMBURSEMENT_FAIL,
+        error: error
+    };
+}
+
+
+export const skipReimbursement = (skip_reimbursement, volunteerId, requestId) => {
+    return dispatch => {
+        dispatch(skipReimbursementStart());
+
+        const url = `/requests/volunteering/${volunteerId}/`;
+
+        const formData = {
+            skip_reimbursement: skip_reimbursement,
+            request: requestId,
+        }
+
+        axios.put(url, formData)
+            .then(response => {
+                dispatch(skipReimbursementSuccess(response.data.status));
+                dispatch(fetchVolunteerDetail(volunteerId));
+                dispatch(setAlert(`Reimbursement skipped.`, "success"));
+            })
+            .catch(error => {
+                dispatch(skipReimbursementFail(error));
+                dispatch(setAlert(`Failed to skip reimbursement`, "danger"));
+            })
+    }
+};
+
 
 

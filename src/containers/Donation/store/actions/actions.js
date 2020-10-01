@@ -23,10 +23,10 @@ export const fetchDonationFail = (error) => {
     };
 }
 
-export const fetchDonation = (reimbursementId) => {
+export const fetchDonation = (requestId) => {
     return dispatch => {
         dispatch(fetchDonationStart());
-        const url = `/funds/donation-list/${reimbursementId}/`;
+        const url = `/funds/donation-list/${requestId}/`;
         axios.get(url)
             .then(response => {
                 const payload = response.data;
@@ -61,7 +61,7 @@ export const deleteDonationFail = (error) => {
     };
 }
 
-export const deleteDonation = (donationId, reimbursementId) => {
+export const deleteDonation = (donationId, requestId) => {
     return dispatch => {
         dispatch(deleteDonationStart());
         const url = `/funds/donation/${donationId}/`;
@@ -70,7 +70,7 @@ export const deleteDonation = (donationId, reimbursementId) => {
             .then(response => {
                 const status = response.status;
                 dispatch(deleteDonationSuccess(status));
-                dispatch(fetchDonation(reimbursementId))
+                dispatch(fetchDonation(requestId))
                 dispatch(setAlert(`Your donation #${donationId} has been canceled`, "warning"));
             })
             .catch(error => {
@@ -102,7 +102,7 @@ export const updateDonationFail = (error) => {
 }
 
 
-export const updateDonation = (formData, reimbursementId, donationId) => {
+export const updateDonation = (formData, requestId, donationId) => {
     return dispatch => {
         dispatch(updateDonationStart());
         const url = `/funds/donation/${donationId}/`;
@@ -111,15 +111,15 @@ export const updateDonation = (formData, reimbursementId, donationId) => {
         const body = {
             amount: update_amount,
             status: update_status ? "Sent" : "Pending",
-            reimbursement: reimbursementId,
+            request: requestId,
         }
 
         axios.put(url, body)
             .then(response => {
                 const status = response.status;
-                const reimbursementId = response.data.reimbursement
+                const requestId = response.data.request
                 dispatch(updateDonationSuccess(status));
-                dispatch(fetchDonation(reimbursementId));
+                dispatch(fetchDonation(requestId));
                 dispatch(setAlert(`Donation #${donationId} updated.`, "success"));
             })
             .catch(error => {
@@ -152,7 +152,7 @@ export const createDonationFail = (error) => {
 }
 
 
-export const createDonation = (formData, reimbursementId) => {
+export const createDonation = (formData, requestId) => {
     return dispatch => {
         dispatch(createDonationStart());
         const url = '/funds/donation/';
@@ -160,14 +160,14 @@ export const createDonation = (formData, reimbursementId) => {
         const body = {
             amount: donation_amount,
             status: donation_status ? "Sent" : "Pending",
-            reimbursement: reimbursementId,
+            request: requestId,
         }
         axios.post(url, body)
             .then(response => {
                 const donationId = response.data.id
                 dispatch(createDonationSuccess(response.status));
                 dispatch(setAlert(`Successfully create donation #${donationId}. Thank you for your support!`, "success"));
-                dispatch(fetchDonation(reimbursementId));
+                dispatch(fetchDonation(requestId));
             })
             .catch(error => {
                 dispatch(createDonationFail(error));
