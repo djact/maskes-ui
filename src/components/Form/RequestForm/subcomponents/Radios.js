@@ -27,6 +27,7 @@ const Radios = (props) => {
                             id={name + index}
                             value={option.value}
                             label={option.key}
+                            checked={option.value === field.value}
                         />
                     ))
                 }}
