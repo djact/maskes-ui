@@ -37,12 +37,6 @@ class AppNavbar extends Component<ILoginModalProps> {
                 <Nav.Link as={NavLink} to="/get-involved">
                   Get Involved
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/request-support">
-                  Request Support
-                </Nav.Link>
-                <Nav.Link as={NavLink} to="/offer-support">
-                  Offer Support
-                </Nav.Link>
               </React.Fragment>
             )}
             {hasLogin && is_requester && (
