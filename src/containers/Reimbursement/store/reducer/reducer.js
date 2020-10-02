@@ -99,6 +99,29 @@ const requestReimbursementFail = (state, action) => {
     });
 };
 
+//SKIP REIMBURSEMENT
+const skipReimbursementSuccess = (state, action) => {
+    return updateObject(state, {
+        status: action.status,
+        loading: false,
+        error: null,
+    });
+};
+
+const skipReimbursementStart = (state, action) => {
+    return updateObject(state, {
+        loading: true,
+        error: null,
+    });
+};
+
+const skipReimbursementFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: action.error
+    });
+};
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -117,6 +140,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REQUEST_REIMBURSEMENT_SUCCESS: return requestReimbursementSuccess(state, action);
         case actionTypes.REQUEST_REIMBURSEMENT_START: return requestReimbursementStart(state, action);
         case actionTypes.REQUEST_REIMBURSEMENT_FAIL: return requestReimbursementFail(state, action);
+
+        case actionTypes.SKIP_REIMBURSEMENT_SUCCESS: return skipReimbursementSuccess(state, action);
+        case actionTypes.SKIP_REIMBURSEMENT_START: return skipReimbursementStart(state, action);
+        case actionTypes.SKIP_REIMBURSEMENT_FAIL: return skipReimbursementFail(state, action);
 
         default: return state;
     }

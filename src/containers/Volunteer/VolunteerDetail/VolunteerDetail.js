@@ -5,6 +5,7 @@ import { Spinner, Button, Container, Table } from 'react-bootstrap';
 import Volunteer from '../Volunteer';
 import Connect from '../../../containers/Connect/Connect';
 import Donation from '../../Donation/Donation';
+import ReimbursementInfo from '../../Reimbursement/ReimbursementInfo';
 import { connect } from 'react-redux';
 import { fetchVolunteerRequestDetail, volunteering } from './store/actions/actions';
 import { FaRegHandPaper } from 'react-icons/fa';
@@ -42,6 +43,7 @@ const VolunteerDetail = (props) => {
 
     const [onDonate, setOnDonate] = useState(false)
 
+
     let display = []
     if (!loading && request) {
         display = (
@@ -56,26 +58,43 @@ const VolunteerDetail = (props) => {
                         <tr><td>Household Size</td><td>{request.household_number}</td></tr>
                         <tr><td>Urgency</td><td>{request.urgency}</td></tr>
                         <tr><td>Volunteer Status</td><td>{request.volunteer_status}</td></tr>
+                        <tr><td>Budget</td><td style={{ fontWeight: "bold", color: "green" }}>${75 + 25 * (parseInt(request.household_number) - 1)}</td></tr>
+                        {request.delivery_status ? <tr><td>Delivery Status</td><td
+                            style={{ fontWeight: "bold", color: request.delivery_status === 'Delivered' ? "green" : '#5bc0de' }}
+                        >{request.delivery_status}</td></tr> : null}
                     </tbody>
                 </Table>
 
-                {request.volunteer_status === 'Available' ? <Button size='lg'
-                    className='mt-1 mb-3 '
-                    variant='outline-primary volunteer-button'
-                    onClick={() => volunteerSignupHandler(request.id)}
-                >Volunteer! <FaRegHandPaper className='mb-1' /></Button> : null
+                {
+                    request.volunteer_status === 'Available' ? <Button size='lg'
+                        className='mt-1 mb-3 mr-2'
+                        variant='outline-primary volunteer-button'
+                        onClick={() => volunteerSignupHandler(request.id)}
+                    >Volunteer! <FaRegHandPaper className='mb-1' /></Button> : null
                 }
 
-                {request.reimbursement &&
-                    <Donation
-                        userId={userId}
-                        supporter={request.reimbursement.reimbursement_supporter}
-                        supporterId={request.reimbursement.reimbursement_supporter_id}
-                        reimbursementId={request.reimbursement.reimbursement_id}
-                        reimbursementStatus={request.reimbursement.reimbursement_status}
-                        reimbursementAmount={request.reimbursement.reimbursement_amount}
-                        onDonate={onDonate} setOnDonate={setOnDonate} />
+                {request.reimbursement && <Aux>
+                    <h5 style={{ fontWeight: 'bold' }}>Reimbursement Infomation</h5>
+                    <ReimbursementInfo
+                        publicMode={true}
+                        reimbursement={request.reimbursement}
+                    />
+                </Aux>
                 }
+
+
+                <Donation
+                    userId={userId}
+                    requestId={request.id}
+
+                    budget={75 + 25 * (parseInt(request.household_number) - 1)}
+
+                    supporter={request.reimbursement && request.reimbursement.reimbursement_supporter}
+                    supporterId={request.reimbursement && request.reimbursement.reimbursement_supporter_id}
+                    reimbursementStatus={request.reimbursement && request.reimbursement.reimbursement_status}
+                    reimbursementAmount={request.reimbursement && request.reimbursement.reimbursement_amount}
+                    onDonate={onDonate} setOnDonate={setOnDonate} />
+
 
 
                 <Connect requestId={request.id} />
