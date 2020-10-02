@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Container, Button, Card, Row } from 'react-bootstrap';
-import maPoster from '../../../assets/images/poster.jpg';
-import apiChaya from '../../../assets/images/api-chaya.jpg';
 import './RequestForm.css';
 
 import { Formik, Form } from 'formik';
@@ -67,28 +66,63 @@ const validationSchema = Yup.object({
 
 
 const RequestSupportForm = (props) => {
-    // eslint-disable-next-line
+    const history = useHistory();
+
     const [formValues, setFormValues] = useState(null)
 
-    const { createRequest, history } = props;
+    const { createRequest, updateRequest, onEdit, setOnEdit, requestData } = props;
 
-    const onSubmit = async (values, actions) => {
+    useEffect(() => {
+        if (requestData) {
+            const getYesNo = (value) => value ? "Yes" : "No"
+
+            setFormValues({
+                contact_preference: requestData.contact_preference,
+                locations: requestData.locations,
+                phone: requestData.phone,
+                address1: requestData.address1,
+                address2: requestData.address2,
+                city: requestData.city,
+                zip_code: requestData.zip_code,
+                items_list: requestData.items_list,
+                food_restrictions: requestData.food_restrictions,
+                household_number: requestData.household_number,
+                urgency: requestData.urgency,
+                financial_support: requestData.financial_support,
+                special_info: requestData.special_info,
+                need_checkin: requestData.need_checkin,
+                extra_info: requestData.extra_info,
+                offer_resources: requestData.offer_resources,
+
+                agree_transfer: getYesNo(requestData.agree_transfer),
+                share_info: getYesNo(requestData.share_info),
+                ma_pod_setup: getYesNo(requestData.ma_pod_setup),
+                prefered_food: requestData.prefered_food.split(','),
+            })
+        }
+    }, [requestData, onEdit])
+
+    const onSubmit = (values, actions) => {
         const getBool = (value) => value === "Yes"
+
         values.agree_transfer = getBool(values.agree_transfer)
         values.share_info = getBool(values.share_info)
         values.ma_pod_setup = getBool(values.ma_pod_setup)
         values.prefered_food = values.prefered_food.toString()
 
-        createRequest(values);
-        // console.log('[FORM DATA]', values);
-        // console.log('[ON SUBMIT PROPS]', actions);
-
-        // actions.setSubmitting(false);
-        // actions.resetForm();
+        actions.setSubmitting(false);
+        if (onEdit) {
+            updateRequest(values);
+            setOnEdit(false);
+        } else {
+            createRequest(values);
+            actions.resetForm();
+            history.push('/my-requests');
+        }
     }
 
     return (
-        <Container className='mt-4 px-5'>
+        <Container className='mt-4'>
             <h3>Request Support Form</h3>
             <hr />
             <Formik
@@ -376,11 +410,6 @@ const RequestSupportForm = (props) => {
                             <li><a href="https://humantraffickinghotline.org/" target="_blank" rel="noopener noreferrer">National Human Trafficking Hotline: {' '}</a>1-888-373-7888</li>
                         </ul>
 
-                        <br />
-                        <Card.Img
-                            variant="bottom"
-                            src={apiChaya}
-                        />
                     </Card>
 
                     <Card>
@@ -388,24 +417,17 @@ const RequestSupportForm = (props) => {
                             We're so glad you've reached out to us for support. We will try our best to get back to you within 48 hours as to whether we can meet your request. Thank you for your patience and grace.
                         </Card.Text>
                     </Card>
-
-                    <Card className='mt-3'>
-                        <Card.Img
-                            variant="bottom"
-                            src={maPoster}
-                            style={{ margin: 'auto' }}
-                        />
-                    </Card>
-
                     <Button
                         type="submit" size="lg"
                         disabled={!isValid || isSubmitting}
-                        className='mt-3 submit-request-button'>Submit</Button>
+                        className='mt-3 mr-2 submit-request-button'>{onEdit ? 'Update' : 'Submit'}</Button>
+                    {onEdit && <Button variant='secondary'
+                        className='mt-3 submit-request-button'
+                        size="lg"
+                        onClick={() => setOnEdit(false)}
+                    >Back</Button>}
                 </Form>
             )}
-
-
-
             </Formik>
 
         </Container>

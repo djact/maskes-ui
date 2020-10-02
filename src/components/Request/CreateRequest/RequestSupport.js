@@ -5,10 +5,16 @@ import { createRequest } from '../../../containers/Requests/RequestList/store/ac
 import RequestSupportForm from '../../Form/RequestForm/RequestSupportForm';
 
 const RequestSupport = (props) => {
-    const { createRequest } = props;
+    const { createRequest, updateRequest, requestData, onEdit, setOnEdit } = props;
 
     return (
-        <RequestSupportForm createRequest={createRequest} />
+        <RequestSupportForm
+            onEdit={onEdit}
+            setOnEdit={setOnEdit}
+            createRequest={createRequest}
+            updateRequest={updateRequest}
+            requestData={requestData}
+        />
     );
 };
 
