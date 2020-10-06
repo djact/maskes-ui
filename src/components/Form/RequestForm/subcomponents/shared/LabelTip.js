@@ -2,6 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import PropTypes from 'prop-types';
 
 const LabelTip = (props) => {
     const { tip, label, required } = props;
@@ -25,5 +26,11 @@ const LabelTip = (props) => {
         </Form.Label>
     )
 };
+
+LabelTip.propTypes = {
+    tip: PropTypes.object,
+    label: PropTypes.string,
+    required: PropTypes.bool,
+}
 
 export default LabelTip;

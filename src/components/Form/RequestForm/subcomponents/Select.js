@@ -3,7 +3,9 @@ import { Field, ErrorMessage } from 'formik';
 import { Form } from 'react-bootstrap';
 import TextError from './shared/TextError';
 import LabelTip from './shared/LabelTip';
-const TextArea = (props) => {
+import PropTypes from 'prop-types';
+
+const Select = (props) => {
     const { label, name, options, description, tip, required, ...rest } = props;
 
     return (
@@ -44,4 +46,16 @@ const TextArea = (props) => {
     )
 };
 
-export default TextArea;
+Select.propTypes = {
+    label: PropTypes.string,
+    name: PropTypes.string,
+    options: PropTypes.array,
+    required: PropTypes.bool,
+    placeholder: PropTypes.string,
+    description: PropTypes.object,
+    tip: PropTypes.object,
+    field: PropTypes.object,
+    meta: PropTypes.object,
+}
+
+export default Select;

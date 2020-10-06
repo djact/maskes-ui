@@ -3,6 +3,8 @@ import { Field, ErrorMessage } from 'formik';
 import { Form } from 'react-bootstrap';
 import TextError from './shared/TextError';
 import LabelTip from './shared/LabelTip';
+import PropTypes from 'prop-types';
+
 const TextArea = (props) => {
 
     const { label, name, placeholder, description, tip, required, ...rest } = props;
@@ -41,5 +43,17 @@ const TextArea = (props) => {
 
     )
 };
+
+TextArea.propTypes = {
+    label: PropTypes.string,
+    name: PropTypes.string,
+    options: PropTypes.array,
+    required: PropTypes.bool,
+    placeholder: PropTypes.string,
+    description: PropTypes.object,
+    tip: PropTypes.object,
+    field: PropTypes.object,
+    meta: PropTypes.object,
+}
 
 export default TextArea;

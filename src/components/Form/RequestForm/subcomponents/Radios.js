@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 import { Form } from 'react-bootstrap';
 import LabelTip from './shared/LabelTip';
-
+import PropTypes from 'prop-types';
 const Radios = (props) => {
     const { label, name, options, required, description, tip, ...rest } = props;
 
@@ -37,5 +37,16 @@ const Radios = (props) => {
         </Form.Group>
     )
 };
+
+Radios.propTypes = {
+    label: PropTypes.string,
+    name: PropTypes.string,
+    options: PropTypes.array,
+    required: PropTypes.bool,
+    placeholder: PropTypes.string,
+    description: PropTypes.object,
+    tip: PropTypes.object,
+    field: PropTypes.object,
+}
 
 export default Radios;

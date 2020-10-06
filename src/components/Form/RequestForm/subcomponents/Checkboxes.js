@@ -2,13 +2,18 @@ import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 import { Form } from 'react-bootstrap';
 import LabelTip from './shared/LabelTip';
+import PropTypes from 'prop-types';
 
 const Checkboxes = (props) => {
 
-    const { label, name, options, required, tip, ...rest } = props;
+    const { label, name, options, required, tip, description, ...rest } = props;
     return (
         <Form.Group controlId={name}>
             <LabelTip label={label} tip={tip} required={required} />
+
+            <Form.Text className='my-3'>
+                {description}
+            </Form.Text>
 
             <Field name={name} {...rest}>
                 {props => {
@@ -36,5 +41,15 @@ const Checkboxes = (props) => {
         </Form.Group>
     )
 };
+
+Checkboxes.propTypes = {
+    label: PropTypes.string,
+    name: PropTypes.string,
+    options: PropTypes.array,
+    required: PropTypes.bool,
+    description: PropTypes.object,
+    tip: PropTypes.object,
+    field: PropTypes.object,
+}
 
 export default Checkboxes;
