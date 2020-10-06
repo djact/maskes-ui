@@ -21,11 +21,13 @@ import CreateRequest from './components/Request/CreateRequest/CreateRequest';
 import RequestDetail from './containers/Requests/RequestDetail/RequestDetail';
 import RequestList from './containers/Requests/RequestList/RequestList';
 
-import VolunteerList from './containers/Volunteer/VolunteerList/VolunteerList';
-import VolunteerDetail from './containers/Volunteer/VolunteerDetail/VolunteerDetail';
-import MyVolunteerList from './containers/Volunteer/MyVolunteer/MyVolunteerList';
-import MyVolunteerDetail from './containers/Volunteer/MyVolunteer/MyVolunteerDetail';
-import SignUp from './containers/Volunteer/SignUp/SignUp';
+import {
+  VolunteerList,
+  VolunteerDetail,
+  MyVolunteerList,
+  MyVolunteerDetail,
+  SignUp,
+} from './containers/Volunteer';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { withRouter } from 'react-router';
