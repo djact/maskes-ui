@@ -6,7 +6,8 @@ import './RequestForm.css';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import * as FormOptions from './subcomponents/shared/FormOptions';
-import FormikControl from './subcomponents/shared/FormikControl';
+import { Input, TextArea, Select, Radios, Checkboxes } from './subcomponents/shared/FormikControl';
+import PropTypes from 'prop-types';
 
 const initialValues = {
     contact_preference: '',
@@ -135,16 +136,15 @@ const RequestSupportForm = (props) => {
                 <Form>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Select
                             label='Where in South King County or Eastside are you located?'
                             description={<p>
-                                This form is for South King County and Eastside.
-                                <br />If you're in Seattle, please complete this:
+                                {"This form is for South King County and Eastside."}
+                                <br />{"If you're in Seattle, please complete this:"}
                                 <a href="https://docs.google.com/forms/d/1rOkXW6ElVT0MH9oSI-TuW8L5szCt-ULbZhWebARRZNI/viewform" target="_blank" rel="noopener noreferrer">
-                                    {' '}Seattle area COVID-19 "Request Support" Form
+                                    {' Seattle area COVID-19 "Request Support" Form '}
                                 </a>
                             </p>}
-                            control='select'
                             name='locations'
                             options={FormOptions.locations}
                             required
@@ -152,9 +152,8 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3' style={{ padding: '20px' }}>
-                        <FormikControl
+                        <Input
                             label='Phone Number'
-                            control='input'
                             placeholder="123-456-7890"
                             name="phone"
                             onChange={(e) => {
@@ -164,31 +163,27 @@ const RequestSupportForm = (props) => {
                             required
                         />
 
-                        <FormikControl
+                        <Input
                             label='Address'
-                            control='input'
                             placeholder="1234 Main St"
                             name='address1'
                             required
                         />
-                        <FormikControl
-                            control='input'
+                        <Input
                             placeholder="Apartment, studio, or floor"
                             name='address2'
                             label='Address 2'
                         />
                         <Row>
-                            <FormikControl
+                            <Input
                                 label='City'
                                 asCol
-                                control='input'
                                 name='city'
                                 required
                             />
-                            <FormikControl
+                            <Input
                                 label='Zip'
                                 asCol
-                                control='input'
                                 name='zip_code'
                                 onChange={(e) => {
                                     maskZipCodeHandler(e);
@@ -200,9 +195,8 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Radios
                             label='What would be the quickest method of reaching you?'
-                            control='radio'
                             name='contact_preference'
                             options={FormOptions.contact_preference}
                             required
@@ -210,16 +204,15 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Radios
                             label='If you live outside of our service area, can we send your request details to another local mutual aid organization who we trust?'
                             tip={
                                 <div>
                                     <p>If you say <strong>YES</strong>, it will be will be faster and simpler to get you your delivery! </p>
-                                    <p>If you say <strong>NO</strong> and you live outside of our range, we will let you know that we can't help you and tell you where to go to find help for your location, which may take a while, and then you will have to fill out another group's form and begin the whole process again from scratch. (We will never share your information with advertisers, political candidates or parties, corporations, or the government.)</p>
+                                    <p>If you say <strong>NO</strong> {"and you live outside of our range, we will let you know that we can't help you and tell you where to go to find help for your location, which may take a while, and then you will have to fill out another group's form and begin the whole process again from scratch."} (We will never share your information with advertisers, political candidates or parties, corporations, or the government.)</p>
                                 </div>
 
                             }
-                            control='radio'
                             name='agree_transfer'
                             options={FormOptions.yes_no}
                             required
@@ -227,9 +220,8 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Checkboxes
                             label='Food Preference?'
-                            control='checkbox'
                             name='prefered_food'
                             options={FormOptions.food_preference}
                             required
@@ -237,14 +229,13 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <TextArea
                             label='What are the essential/ urgent items you need?'
-                            control='textarea'
                             placeholder="Your Answer"
-                            tip={`Items can be general like "milk," or specific like "a 24-pack of the purple Always brand overnight menstrual pads with wings."`}
+                            tip={<p>{`Items can be general like "milk," or specific like "a 24-pack of the purple Always brand overnight menstrual pads with wings."`}</p>}
                             description={
                                 <p>We are on a volunteer basis and actively fundraising. At this moment we are set up to prioritize delivering ONLY ESSENTIAL/URGENT/ IMMEDIATE needs of our community members.
-                                <br />We will do our best to match your requests, but if we can't find something specific we may get you a similar substitute. We trust you to know your needs and we are committed to delivery without judgement.</p>
+                                <br />We will do our best to match your requests, but if we can not find something specific we may get you a similar substitute. We trust you to know your needs and we are committed to delivery without judgement.</p>
                             }
                             name="items_list"
                             required
@@ -252,20 +243,18 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <TextArea
                             label="Do you have any restrictions, allergies or intolerances?"
-                            control='textarea'
                             placeholder="Your Answer"
-                            description="If there are no allergies/ restrictions, enter none."
+                            description={<p>If there are no allergies/ restrictions, enter none.</p>}
                             name="food_restrictions"
                             required
                         />
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Input
                             label="How many individuals are in your household?"
-                            control='input'
                             type='number'
                             placeholder="Your Answer"
                             name="household_number"
@@ -274,10 +263,9 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Radios
                             label='How urgent is your need?'
-                            description="Please allow us 48 hours to respond to your request."
-                            control='radio'
+                            description={<p>Please allow us 48 hours to respond to your request.</p>}
                             name='urgency'
                             options={FormOptions.urgency}
                             required
@@ -285,7 +273,7 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Radios
                             label='Would you like financial support with your delivery?'
                             description={
                                 <p>
@@ -295,7 +283,6 @@ const RequestSupportForm = (props) => {
                                     people of color.
                                 </p>
                             }
-                            control='radio'
                             name='financial_support'
                             options={FormOptions.financial_support}
                             required
@@ -303,11 +290,10 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <TextArea
                             label="Can you tell us about your social location, privileges you do or
                             don’t have, whether you are Black, Indigenous, Person of Color
                             (BIPOC), identify as a survivor of domestic or sexual violence, etc."
-                            control='textarea'
                             placeholder="Your Answer"
                             name="special_info"
                             required
@@ -315,10 +301,9 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Radios
                             label='Is it okay to share your contact number, address, and grocery list
                             with the volunteer who is doing the delivery?'
-                            control='radio'
                             name='share_info'
                             options={FormOptions.yes_no}
                             required
@@ -326,10 +311,9 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Radios
                             label='Would you like us to check in via text or call every few weeks to
                             support you in your health and wellbeing?'
-                            control='radio'
                             name='need_checkin'
                             options={FormOptions.need_checkin}
                             required
@@ -337,11 +321,9 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <TextArea
                             label='Are there things you would like us to know?'
-                            description="Any support or
-                                resources you would like to offer, questions, comments, concerns."
-                            control='textarea'
+                            description={<p>Any support or resources you would like to offer, questions, comments, concerns.</p>}
                             placeholder="Your Answer"
                             name='extra_info'
                             required
@@ -349,7 +331,7 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <Radios
                             label="Are you interested in joining your neighborhood mutual aid pod?"
                             description={
                                 <p>If you need assistance in setting up your own mutual aid pod to support
@@ -358,7 +340,6 @@ const RequestSupportForm = (props) => {
                                 <a href="https://tinyurl.com/KCMutualAidPod" target="_blank" rel="noopener noreferrer">
                                         {' '}KCMutualAidPod</a></p>
                             }
-                            control='radio'
                             name='ma_pod_setup'
                             options={FormOptions.yes_no}
                             required
@@ -366,7 +347,7 @@ const RequestSupportForm = (props) => {
                     </Card>
 
                     <Card className='mt-3 mb-3 px-4 pb-2 pt-3'>
-                        <FormikControl
+                        <TextArea
                             label=' Is there anything else you would like us to know about resources you
                             can offer?'
                             description={
@@ -381,7 +362,6 @@ const RequestSupportForm = (props) => {
                                     wheelchair accessible van?
                                 </p>
                             }
-                            control='textarea'
                             placeholder="Your Answer"
                             name='offer_resources'
                             required
@@ -414,7 +394,7 @@ const RequestSupportForm = (props) => {
 
                     <Card>
                         <Card.Text style={{ fontWeight: 'bold', padding: '20px' }}>
-                            We're so glad you've reached out to us for support. We will try our best to get back to you within 48 hours as to whether we can meet your request. Thank you for your patience and grace.
+                            {"We're so glad you've reached out to us for support. We will try our best to get back to you within 48 hours as to whether we can meet your request. Thank you for your patience and grace."}
                         </Card.Text>
                     </Card>
                     <Button
@@ -433,5 +413,14 @@ const RequestSupportForm = (props) => {
         </Container>
     )
 };
+
+RequestSupportForm.propTypes = {
+    createRequest: PropTypes.func,
+    updateRequest: PropTypes.func,
+    onEdit: PropTypes.bool,
+    setOnEdit: PropTypes.func,
+    requestData: PropTypes.object,
+
+}
 
 export default RequestSupportForm;
