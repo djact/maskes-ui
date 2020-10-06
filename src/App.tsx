@@ -31,57 +31,91 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { withRouter } from 'react-router';
 import { authCheckLoginState } from './components/Auth/store/actions/actions';
 
-const App = ({ isAuthenticated, authCheckLoginState, is_requester, is_volunteer }) => {
+const RequesterRoutes = () => {
+  return (
+    <Switch>
+      <ProtectedRoute exact path="/my-requests" component={RequestList} />
+      <ProtectedRoute
+        exact
+        path="/my-requests/create-request"
+        component={CreateRequest}
+      />
+      <ProtectedRoute
+        exact
+        path="/my-requests/:requestId"
+        component={RequestDetail}
+      />
+    </Switch>
+  );
+};
 
-  const token = localStorage.getItem('access')
+const VolunteerRoutes = () => {
+  return (
+    <Switch>
+      <ProtectedRoute exact path="/volunteer" component={VolunteerList} />
+      <ProtectedRoute
+        exact
+        path="/volunteer/my-support"
+        component={MyVolunteerList}
+      />
+      <ProtectedRoute
+        exact
+        path="/volunteer/my-support/:volunteerId"
+        component={MyVolunteerDetail}
+      />
+      <Redirect from="/volunteer/signup" to="/volunteer" />
+      <ProtectedRoute
+        exact
+        path="/volunteer/:requestId"
+        component={VolunteerDetail}
+      />
+      <Redirect exact from="/profile" to="/profile/me/" />
+      <Route exact path="/profile/:userId/" component={UserProfile} />
+    </Switch>
+  );
+};
+
+const App = ({
+  isAuthenticated,
+  authCheckLoginState,
+  is_requester,
+  is_volunteer,
+}) => {
+  const token = localStorage.getItem('access');
 
   useEffect(() => {
     authCheckLoginState();
-  }, [token, authCheckLoginState])
-
-  const requester_routes = (
-    <Switch>
-      <ProtectedRoute exact path='/my-requests' component={RequestList} />
-      <ProtectedRoute exact path='/my-requests/create-request' component={CreateRequest} />
-      <ProtectedRoute exact path='/my-requests/:requestId' component={RequestDetail} />
-    </Switch>
-  );
-  const volunteer_routes = (
-    <Switch>
-      <ProtectedRoute exact path='/volunteer' component={VolunteerList} />
-      <ProtectedRoute exact path='/volunteer/my-support' component={MyVolunteerList} />
-      <ProtectedRoute exact path='/volunteer/my-support/:volunteerId' component={MyVolunteerDetail} />
-      <Redirect from='/volunteer/signup' to='/volunteer' />
-      <ProtectedRoute exact path='/volunteer/:requestId' component={VolunteerDetail} />
-      <Redirect exact from='/profile' to='/profile/me/' />
-      <Route exact path='/profile/:userId/' component={UserProfile} />
-    </Switch>
-  )
-  const public_routes = (
-    <Switch>
-      <Route exact path='/' component={Home} />
-      <Route exact path='/get-help' component={GetHelp} />
-      <Route exact path='/get-involved' component={GetInvolved} />
-      <Route exact path='/volunteer/signup' component={SignUp} />
-      <Redirect from="/admin" to="/admin/" />
-    </Switch>
-  );
+  }, [token, authCheckLoginState]);
 
   return (
     <Layout>
-      {public_routes}
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/get-help" component={GetHelp} />
+        <Route exact path="/get-involved" component={GetInvolved} />
+        <Route exact path="/volunteer/signup" component={SignUp} />
+        <Redirect from="/admin" to="/admin/" />
+      </Switch>
       <Route exact path="/logout" component={Logout} />
-      <Route exact path='/password-reset' component={ResetPassword} />
-      <Route exact path="/password-reset-confirm/:uid/:token" component={ConfirmPassword}></Route>
-      <Route exact path='/email-reset' component={ResetEmail} />
-      <Route exact path="/email-reset-confirm/:uid/:token" component={ConfirmEmail}></Route>
-      {is_requester && isAuthenticated ? requester_routes : null}
-      {is_volunteer && isAuthenticated ? volunteer_routes : null}
+      <Route exact path="/password-reset" component={ResetPassword} />
+      <Route
+        exact
+        path="/password-reset-confirm/:uid/:token"
+        component={ConfirmPassword}
+      />
+      <Route exact path="/email-reset" component={ResetEmail} />
+      <Route
+        exact
+        path="/email-reset-confirm/:uid/:token"
+        component={ConfirmEmail}
+      />
+      <RequesterRoutes />
+      <VolunteerRoutes />
     </Layout>
-  )
+  );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.access !== null,
     is_requester: state.auth.is_requester,
@@ -89,4 +123,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { authCheckLoginState })(App));
+export default withRouter(
+  connect(mapStateToProps, { authCheckLoginState })(App)
+);
