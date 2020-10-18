@@ -63,6 +63,7 @@ const App = ({ isAuthenticated, authCheckLoginState, is_requester, is_volunteer 
       <Route exact path='/get-help' component={GetHelp} />
       <Route exact path='/get-involved' component={GetInvolved} />
       <Route exact path='/volunteer/signup' component={SignUp} />
+      <Route exact path='/my-requests/create-request' component={CreateRequest} />
       <Redirect from="/admin" to="/admin/" />
     </Switch>
   );
