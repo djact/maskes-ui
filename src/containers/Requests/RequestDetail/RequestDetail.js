@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import { connect } from 'react-redux';
-import { fetchRequestDetail, deleteRequest } from './store/actions/actions';
+import { fetchRequestDetail, deleteRequest, updateRequest } from './store/actions/actions';
 import DeleteModal from '../../../components/Modal/DeleteModal/DeleteModal';
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Aux from '../../../hoc/Aux/Aux';
 import Requests from '../Requests';
+import UpdateRequestSupport from '../../../components/Request/CreateRequest/RequestSupport';
+import * as requestStatus from '../requestStatus';
 
 const RequestDetail = (props) => {
-  const { request, loading, fetchRequestDetail, deleteRequest, name, history } = props;
+  const { request, loading, fetchRequestDetail, deleteRequest, updateRequest, name, history } = props;
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null)
+  const [updateId, setUpdateId] = useState(null);
+  const [onEdit, setOnEdit] = useState(false);
 
   const closeDeleteModalHandler = () => setShowDeleteModal(false);
 
@@ -27,6 +31,10 @@ const RequestDetail = (props) => {
     history.push('/my-requests')
   }
 
+  const requestUpdateHandler = (formValues) => {
+    updateRequest(updateId, formValues)
+  }
+
   useEffect(() => {
 
     fetchRequestDetail(props.match.params.requestId)
@@ -34,21 +42,13 @@ const RequestDetail = (props) => {
   }, [fetchRequestDetail, props.match.params.requestId])
 
 
-  const request_status_style = {
-    'New': '#5bc0de',
-    'Pending': '#fcdc04',
-    'In Process': '#FF8C00',
-    'Completed': '#5cb85c',
-    'Transferred': '#342452',
-  }
-
   let request_detail = {}
   if (!loading && request) {
     request_detail = (
       <tbody>
         <tr><td>Request #</td><td>{request.id}</td></tr>
         <tr><td >Request Status</td><td style={
-          { color: request_status_style[request.status] }}>{request.status}</td></tr>
+          { color: requestStatus.request_status_style[request.status] }}>{request.status}</td></tr>
         <tr><td>Created Date</td><td>{new Date(request.created_date).toLocaleDateString()}</td></tr>
         <tr><td>Phone</td><td>{request.phone}</td></tr>
         <tr><td>Address</td><td>{`${request.address1} ${request.address2}, ${request.city}, WA ${request.zip_code}`}</td></tr>
@@ -73,25 +73,46 @@ const RequestDetail = (props) => {
   return (
     <Requests name={name}>
       <DeleteModal showDeleteModal={showDeleteModal} closeModalHandler={closeDeleteModalHandler} deleteHandler={requestDeleteHandler} label="Request" />
-      <Container fluid>
-        <h3>My Request Detail</h3>
-        {loading
-          ? <Spinner animation="grow" />
-          : <Aux>
-            <Table striped bordered hover size="sm">
+      {onEdit ? <UpdateRequestSupport
+        onEdit={onEdit}
+        setOnEdit={setOnEdit}
+        updateRequest={requestUpdateHandler}
+        requestData={request}
+      />
+        : <Container fluid>
+          <h3>My Request Detail</h3>
+          {loading
+            ? <Spinner animation="grow" />
+            : <Aux>
+              <Table striped bordered hover size="sm">
+                {request_detail}
+              </Table>
 
-              {request_detail}
-
-            </Table>
-            {request.status === "New"
-              ? <Button variant='danger' onClick={() => showDeleteModalHandler(request.id)}>Cancel</Button>
-              : request.status === "Transferred"
-                ? <Button style={{ backgroundColor: "#342452", borderColor: "#342452" }} variant='info' disabled >Request transferred</Button>
-                : <Button variant='warning' disabled >Request is in process...</Button>
-            }
-          </Aux>
-        }
-      </Container>
+              {request.status === requestStatus.NEW
+                ? <div>
+                  <Button
+                    variant='primary'
+                    className='mr-2'
+                    size="lg"
+                    onClick={() => {
+                      setOnEdit(true);
+                      setUpdateId(request.id)
+                    }}
+                  >Edit</Button>
+                  <Button
+                    variant='danger'
+                    size="lg"
+                    onClick={() => showDeleteModalHandler(request.id)}>Delete</Button>
+                </div>
+                : request.status === requestStatus.TRANSFERRED
+                  ? <Button style={{ backgroundColor: "#342452", borderColor: "#342452" }} variant='info' disabled >Request transferred</Button>
+                  : request.status === requestStatus.COMPLETED
+                    ? <Button variant='success' disabled >Request is completed</Button>
+                    : <Button variant='warning' disabled >Request is in process...</Button>
+              }
+            </Aux>
+          }
+        </Container>}
     </Requests>
   );
 };
@@ -106,4 +127,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { fetchRequestDetail, deleteRequest })(RequestDetail);
+export default connect(mapStateToProps, { fetchRequestDetail, deleteRequest, updateRequest })(RequestDetail);

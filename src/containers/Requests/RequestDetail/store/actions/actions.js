@@ -77,3 +77,43 @@ export const deleteRequest = (requestId) => {
             })
     }
 };
+
+// UPDATE REQUEST
+export const updateRequestStart = () => {
+    return {
+        type: actionTypes.UPDATE_REQUEST_START
+    };
+}
+
+export const updateRequestSuccess = (payload) => {
+    return {
+        type: actionTypes.UPDATE_REQUEST_SUCCESS,
+        payload: payload
+    };
+}
+
+export const updateRequestFail = (error) => {
+    return {
+        type: actionTypes.UPDATE_REQUEST_FAIL,
+        error: error
+    };
+}
+
+export const updateRequest = (requestId, body) => {
+    return dispatch => {
+        dispatch(updateRequestStart());
+        const url = `/requests/requester/${requestId}/`;
+
+        axios.put(url, body)
+            .then(response => {
+                dispatch(updateRequestSuccess(response.data));
+                dispatch(fetchRequests(1))
+                dispatch(setAlert(`Request #${requestId} successfully updated`, "success"));
+            })
+            .catch(error => {
+                dispatch(updateRequestFail(error));
+                dispatch(setAlert("Failed to update a request, please try again", "danger"));
+            })
+    }
+};
+

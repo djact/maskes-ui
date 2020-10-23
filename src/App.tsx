@@ -17,7 +17,7 @@ import ConfirmEmail from './containers/Email/ConfirmEmail';
 
 import UserProfile from './containers/UserProfile/UserProfile';
 
-import CreateRequest from './components/Request/CreateRequest/CreateRequest';
+import RequestSupport from './components/Request/CreateRequest/RequestSupport';
 import RequestDetail from './containers/Requests/RequestDetail/RequestDetail';
 import RequestList from './containers/Requests/RequestList/RequestList';
 
@@ -42,7 +42,7 @@ const App = ({ isAuthenticated, authCheckLoginState, is_requester, is_volunteer 
   const requester_routes = (
     <Switch>
       <ProtectedRoute exact path='/my-requests' component={RequestList} />
-      <ProtectedRoute exact path='/my-requests/create-request' component={CreateRequest} />
+      <ProtectedRoute exact path='/my-requests/create-request' component={RequestSupport} />
       <ProtectedRoute exact path='/my-requests/:requestId' component={RequestDetail} />
     </Switch>
   );
