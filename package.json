@@ -23,7 +23,8 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^1.0.0",
     "typescript": "~3.7.2",
-    "uuid": "^8.2.0"
+    "uuid": "^8.2.0",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "cypress:open": "cypress open",
