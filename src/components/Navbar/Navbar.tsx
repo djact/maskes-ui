@@ -49,6 +49,9 @@ class AppNavbar extends Component<ILoginModalProps> {
                 Volunteer
               </Nav.Link>
             )}
+            <Nav.Link as={NavLink} to="/faq">
+              FAQ
+            </Nav.Link>
           </Nav>
 
           <Nav className="mr-2">

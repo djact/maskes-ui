@@ -30,6 +30,7 @@ import SignUp from './containers/Volunteer/SignUp/SignUp';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { withRouter } from 'react-router';
 import { authCheckLoginState } from './components/Auth/store/actions/actions';
+import Faq from './containers/FAQ/Faq';
 
 const App = ({ isAuthenticated, authCheckLoginState, is_requester, is_volunteer }) => {
 
@@ -63,6 +64,7 @@ const App = ({ isAuthenticated, authCheckLoginState, is_requester, is_volunteer 
       <Route exact path='/get-help' component={GetHelp} />
       <Route exact path='/get-involved' component={GetInvolved} />
       <Route exact path='/volunteer/signup' component={SignUp} />
+      <Route exact path='/faq' component={Faq} />
       <Redirect from="/admin" to="/admin/" />
     </Switch>
   );
