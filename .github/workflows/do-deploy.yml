@@ -25,9 +25,9 @@ jobs:
       # - run: npm test
       - run: npm run build
       - run: ls
-        
-      - uses: appleboy/scp-action@master
-        name: Copy build via scp
+      
+      - name: Copy build via scp  
+        uses: appleboy/scp-action@master
         env:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
@@ -38,7 +38,7 @@ jobs:
           target: "."
 
       - name: Executing remote command
-      - uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
