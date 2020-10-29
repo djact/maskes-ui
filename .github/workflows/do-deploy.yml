@@ -21,9 +21,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+#       - run: npm install
       # - run: npm test
-      - run: npm run build
+#       - run: npm run build
+      - run: mkdir build
       - run: ls
       
       - name: copy build to remote server 
@@ -35,6 +36,6 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
         with:
           source: "build"
-          target: "maskes"
+          target: "maskes/build"
           rm: true
           overwrite: true
