@@ -26,7 +26,7 @@ jobs:
       - run: npm run build  
       - run: ls
       
-      - name: Executing remote command / remove build
+      - name: remove current build on remote server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -47,3 +47,17 @@ jobs:
         with:
           source: "build"
           target: "maskes"
+      
+      - name: Executing remote command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            cd maskes
+            source env/bin/activate
+            python manage.py collectstatic ----noinput
+            sudo chmod -R 755 static
+            sudo chmod -R 755 build
