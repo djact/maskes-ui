@@ -21,13 +21,24 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-#       - run: npm install
+      # - run: npm install
       # - run: npm test
-#       - run: npm run build
-      - run: mkdir build
+      # - run: npm run build
+      - run: mkdir build  
       - run: ls
       
-      - name: copy build to remote server 
+      - name: Executing remote command / remove build
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            cd maskes
+            rm -rf build
+      
+      - name: Copy build via scp  
         uses: appleboy/scp-action@master
         env:
           HOST: ${{ secrets.HOST }}
@@ -36,6 +47,4 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
         with:
           source: "build"
-          target: "maskes/build"
-          rm: true
-          overwrite: true
+          target: "maskes"
