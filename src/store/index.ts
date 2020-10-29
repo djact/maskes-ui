@@ -11,9 +11,11 @@ import alerts from '../components/Alert/store/reducer/reducer';
 import connect from '../containers/Connect/store/reducer/reducer';
 import profile from '../containers/UserProfile/store/reducer/reducer';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
-
+const composeEnhancers = composeWithDevTools({
+  // options like actionSanitizer, stateSanitizer
+});
 const rootReducer = combineReducers({
   auth,
   requestList,
@@ -28,5 +30,5 @@ const rootReducer = combineReducers({
   donation,
 });
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 export default store;
