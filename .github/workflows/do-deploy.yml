@@ -21,9 +21,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      # - run: npm install
       # - run: npm test
-      - run: npm run build
+      # - run: npm run build
+      - run: ls
+      - run: touch test.txt
       - run: ls
       
       - name: Copy build via scp  
@@ -34,7 +36,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
         with:
-          source: "build"
+          source: "test.txt"
           target: "."
 
       - name: Executing remote command
