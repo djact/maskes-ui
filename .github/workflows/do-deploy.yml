@@ -34,7 +34,11 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
           script: |
-            rm -rf maskes/build/!('home.html')
+            cd maskes
+            mv build/home.html home.html
+            rm -rf build
+            mkdir build
+            mv home.html build/home.html
 
       - name: Copy build via scp
         uses: appleboy/scp-action@master
