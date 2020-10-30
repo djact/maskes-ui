@@ -34,11 +34,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
           script: |
-            cd maskes
-            mv build/home.html home.html
-            rm -rf build
-            mkdir build
-            mv home.html build/home.html
+            rm -rf maskes/build
 
       - name: Copy build via scp
         uses: appleboy/scp-action@master
@@ -60,6 +56,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           script: |
             cd maskes
+            git checkout -- build/home.html
             rm -rf static/js/*
             source env/bin/activate
             python manage.py collectstatic --noinput
