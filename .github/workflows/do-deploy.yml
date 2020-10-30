@@ -56,9 +56,9 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           script: |
             cd maskes
-            git checkout -- build/home.html
             rm -rf static/js/*
             source env/bin/activate
             python manage.py collectstatic --noinput
             sudo chmod -R 755 static
             sudo chmod -R 755 build
+            git checkout -- build/home.html
