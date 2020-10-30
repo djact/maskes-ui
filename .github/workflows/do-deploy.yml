@@ -57,6 +57,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           script: |
             cd maskes
+            rm -rf static/js/*
             source env/bin/activate
             python manage.py collectstatic --noinput
             sudo chmod -R 755 static
