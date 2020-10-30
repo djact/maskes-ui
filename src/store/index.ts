@@ -11,7 +11,7 @@ import alerts from '../components/Alert/store/reducer/reducer';
 import connect from '../containers/Connect/store/reducer/reducer';
 import profile from '../containers/UserProfile/store/reducer/reducer';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 const composeEnhancers = composeWithDevTools({
   // options like actionSanitizer, stateSanitizer
