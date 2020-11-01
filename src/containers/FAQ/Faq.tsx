@@ -51,8 +51,8 @@ interface Props { }
 const Faq: FC<Props> = () => {
   return (
     <div className="page-container">
-      <header>
-        <h3>Frequently Asked Questions</h3>
+      <header id="topOfPage">
+        <h2>Frequently Asked Questions</h2>
       </header>
       <section className="faq">
         <ul className="faq__categories">
