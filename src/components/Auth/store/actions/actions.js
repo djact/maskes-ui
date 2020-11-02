@@ -4,179 +4,156 @@ import { fetchVolunteerRequests } from '../../../../containers/Volunteer/Volunte
 import { fetchRequests } from '../../../../containers/Requests/RequestList/store/actions/actions';
 
 export const openAuthModal = () => ({
-    type: actionTypes.OPEN_AUTH_MODAL,
+	type: actionTypes.OPEN_AUTH_MODAL
 });
 
 export const hideAuthModal = () => ({
-    type: actionTypes.HIDE_AUTH_MODAL,
+	type: actionTypes.HIDE_AUTH_MODAL
 });
 
 export const authStart = () => {
-    return {
-        type: actionTypes.AUTH_START
-    };
-}
+	return {
+		type: actionTypes.AUTH_START
+	};
+};
 
 export const authSuccess = (payload) => {
-    return {
-        type: actionTypes.AUTH_SUCCESS,
-        access: payload.access,
-        is_requester: payload.is_requester,
-        is_volunteer: payload.is_volunteer,
-        name: payload.name,
-        user_id: payload.user_id
-    };
-}
+	return {
+		type: actionTypes.AUTH_SUCCESS,
+		access: payload.access,
+		is_requester: payload.is_requester,
+		is_volunteer: payload.is_volunteer,
+		name: payload.name,
+		user_id: payload.user_id
+	};
+};
 
 export const authFail = (error) => {
-    return {
-        type: actionTypes.AUTH_FAIL,
-        error: error,
-    };
-}
+	return {
+		type: actionTypes.AUTH_FAIL,
+		error: error
+	};
+};
 
 export const logoutSuccess = () => {
-    localStorage.removeItem('access');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem('is_requester');
-    localStorage.removeItem('is_volunteer');
-    localStorage.removeItem('name');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('refresh');
-    return {
-        type: actionTypes.AUTH_LOGOUT
-    };
-}
+	localStorage.removeItem('access');
+	localStorage.removeItem('expirationDate');
+	localStorage.removeItem('is_requester');
+	localStorage.removeItem('is_volunteer');
+	localStorage.removeItem('name');
+	localStorage.removeItem('user_id');
+	localStorage.removeItem('refresh');
+	return {
+		type: actionTypes.AUTH_LOGOUT
+	};
+};
 
 export const logout = () => {
-    return dispatch => {
+	return (dispatch) => {
+		axios
+			.post('/blacklist/', { refresh: localStorage.getItem('refresh') })
+			.then((response) => {
+				dispatch(logoutSuccess());
+			})
+			.catch((error) => {
+				dispatch(logoutSuccess());
+			});
+	};
+};
 
-        axios.post('/blacklist/', { "refresh": localStorage.getItem('refresh') })
-            .then(response => {
-                dispatch(logoutSuccess())
-            })
-            .catch(error => {
-                dispatch(logoutSuccess())
-            })
-    }
-}
+const setLocalStorageAndAxios = (data) => {
+	localStorage.setItem('access', data.access);
+	localStorage.setItem('refresh', data.refresh);
+	localStorage.setItem('is_requester', data.is_requester);
+	localStorage.setItem('is_volunteer', data.is_volunteer);
+	localStorage.setItem('name', data.first_name);
+	localStorage.setItem('user_id', data.user_id);
+	axios.defaults.headers['Authorization'] = 'Bearer ' + data.access;
+};
 
-// export const checkAuthTimeout = (expirationTime) => {
-//     return dispatch => {
-//         setTimeout(() => {
-//             // dispatch(logout());
-//         }, expirationTime)
-//     }
-// }
+export const onAuth = (
+	first_name,
+	last_name,
+	display_name,
+	email,
+	password,
+	hasAccount,
+	is_requester,
+	is_volunteer
+) => {
+	return (dispatch) => {
+		dispatch(authStart());
 
-export const onAuth = (first_name, last_name, display_name, email, password, hasAccount, is_requester, is_volunteer) => {
-    return dispatch => {
-        dispatch(authStart());
+		const config = {
+			headers: { 'Content-Type': 'application/json' }
+		};
+		const body = {
+			first_name: first_name,
+			last_name: last_name,
+			display_name: display_name,
+			email: email,
+			password: password,
+			is_requester: is_requester,
+			is_volunteer: is_volunteer
+		};
 
-        const config = {
-            headers: { 'Content-Type': 'application/json' }
-        };
-        const body = {
-            first_name: first_name,
-            last_name: last_name,
-            display_name: display_name,
-            email: email,
-            password: password,
-            is_requester: is_requester,
-            is_volunteer: is_volunteer,
-        };
+		let url = '/auth/jwt/create/';
 
-        let url = '/auth/jwt/create/'
-
-        if (hasAccount) {
-            axios.post(url, body, config)
-                .then(res => {
-                    const expiresIn = 3600 * 1000
-                    const expirationDate = new Date(new Date().getTime() + expiresIn)
-                    localStorage.setItem('access', res.data.access);
-                    localStorage.setItem('refresh', res.data.refresh);
-                    localStorage.setItem('expirationDate', expirationDate)
-                    localStorage.setItem('is_requester', res.data.is_requester)
-                    localStorage.setItem('is_volunteer', res.data.is_volunteer)
-                    localStorage.setItem('name', res.data.first_name)
-                    localStorage.setItem('user_id', res.data.user_id)
-                    dispatch(authSuccess(res.data));
-                    dispatch(hideAuthModal())
-                    // dispatch(checkAuthTimeout(expiresIn))
-                })
-                .catch(err => {
-                    dispatch(authFail(err));
-                })
-        } else {
-            url = '/users/'
-            axios.post(url, body, config)
-                .then(res => {
-                    url = '/auth/jwt/create/'
-                    axios.post(url, body, config)
-                        .then(res => {
-                            const expiresIn = 3600 * 1000
-                            const expirationDate = new Date(new Date().getTime() + expiresIn)
-                            localStorage.setItem('access', res.data.access);
-                            localStorage.setItem('refresh', res.data.refresh);
-                            localStorage.setItem('expirationDate', expirationDate)
-                            localStorage.setItem('is_requester', res.data.is_requester)
-                            localStorage.setItem('is_volunteer', res.data.is_volunteer)
-                            localStorage.setItem('name', res.data.first_name)
-                            localStorage.setItem('user_id', res.data.user_id)
-                            dispatch(authSuccess(res.data));
-                            dispatch(hideAuthModal())
-                            if (res.data.is_volunteer) {
-                                const searchValues = {
-                                    date: "",
-                                    familySize: 0,
-                                    location: "",
-                                    requestId: "",
-                                    urgent: ""
-                                };
-                                dispatch(fetchVolunteerRequests(1, searchValues));
-                            }
-                            if (res.data.is_requester) {
-                                dispatch(fetchRequests(1));
-                            }
-                            // dispatch(checkAuthTimeout(expiresIn))
-                        })
-                        .catch(err => {
-                            dispatch(authFail(err));
-                        })
-                })
-                .catch(err => {
-                    dispatch(authFail(err));
-                })
-        }
-
-
-    }
-}
+		if (hasAccount) {
+			axios
+				.post(url, body, config)
+				.then((res) => {
+					setLocalStorageAndAxios(res.data);
+					dispatch(authSuccess(res.data));
+					dispatch(hideAuthModal());
+				})
+				.catch((err) => {
+					dispatch(authFail(err));
+				});
+		} else {
+			url = '/users/';
+			axios
+				.post(url, body, config)
+				.then((res) => {
+					url = '/auth/jwt/create/';
+					axios
+						.post(url, body, config)
+						.then((res) => {
+							setLocalStorageAndAxios(res.data);
+							dispatch(authSuccess(res.data));
+							dispatch(hideAuthModal());
+							if (res.data.is_volunteer) {
+								dispatch(fetchVolunteerRequests());
+							}
+							if (res.data.is_requester) {
+								dispatch(fetchRequests());
+							}
+						})
+						.catch((err) => {
+							dispatch(authFail(err));
+						});
+				})
+				.catch((err) => {
+					dispatch(authFail(err));
+				});
+		}
+	};
+};
 
 export const authCheckLoginState = () => {
-    return dispatch => {
-        const access = localStorage.getItem('access');
-        const refresh = localStorage.getItem('refresh');
-        const payload = {
-            access: access,
-            refresh: refresh,
-            is_requester: (localStorage.getItem('is_requester') === "true"),
-            is_volunteer: (localStorage.getItem('is_volunteer') === "true"),
-            name: localStorage.getItem('name'),
-            user_id: localStorage.getItem('user_id')
-        }
-        if (access) {
-            // const expirationDate = new Date(localStorage.getItem('expirationDate'));
-            // if (expirationDate < new Date()) {
-            // dispatch(logout());
-            // } else {
-            dispatch(authSuccess(payload));
-            // dispatch(checkAuthTimeout(expirationDate.getTime() - new Date().getTime()))
-            // }
-
-        }
-        // else {
-        //     dispatch(logout())
-        // }
-    }
-}
+	return (dispatch) => {
+		const access = localStorage.getItem('access');
+		const refresh = localStorage.getItem('refresh');
+		const payload = {
+			access: access,
+			refresh: refresh,
+			is_requester: localStorage.getItem('is_requester') === 'true',
+			is_volunteer: localStorage.getItem('is_volunteer') === 'true',
+			name: localStorage.getItem('name'),
+			user_id: localStorage.getItem('user_id')
+		};
+		if (access) {
+			dispatch(authSuccess(payload));
+		}
+	};
+};
