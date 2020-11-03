@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 import { Button, Comment as CommentSUI, Form } from 'semantic-ui-react';
@@ -8,29 +8,12 @@ import { BsPencil, BsXSquare } from 'react-icons/bs';
 import moment from 'moment';
 import Aux from '../../hoc/Aux/Aux';
 import './Comment.css';
-import Reply from './Reply/Reply';
-import { connect } from 'react-redux';
-import { fetchProfile } from '../../containers/UserProfile/store/actions/actions';
+import Replies from '../../containers/Connect/Replies/Replies';
 
 const Comment = (props) => {
-	const {
-		comments,
-		create,
-		update,
-		remove,
-		create_reply,
-		update_reply,
-		remove_reply,
-		loading,
-		userId,
-		fetchProfile
-	} = props;
+	const { comments, create, update, remove, loading, userId } = props;
 
 	const history = useHistory();
-
-	useEffect(() => {
-		fetchProfile(userId);
-	}, [userId, fetchProfile]);
 
 	const [key, setKey] = useState('Comment');
 	const [commentContent, setCommentContent] = useState();
@@ -56,8 +39,7 @@ const Comment = (props) => {
 					key: i,
 					onEdit: false,
 					collapsed: true,
-					comment_content: cm.comment_content,
-					reply_content: ''
+					comment_content: cm.comment_content
 			  }))
 			: []
 	);
@@ -66,16 +48,6 @@ const Comment = (props) => {
 			cms.map((cm, j) =>
 				j === i
 					? { ...cm, key: j, comment_content: e.target.value }
-					: { ...cm, key: j }
-			)
-		);
-	};
-
-	const onChangeReply = (e, i) => {
-		setCms(
-			cms.map((cm, j) =>
-				j === i
-					? { ...cm, key: j, reply_content: e.target.value }
 					: { ...cm, key: j }
 			)
 		);
@@ -200,32 +172,7 @@ const Comment = (props) => {
 					)}
 				</CommentSUI.Content>
 				<CommentSUI.Group collapsed={comment.collapsed}>
-					{comment.replies.length > 0
-						? comment.replies.map((reply, idx) => (
-								<Reply
-									key={idx}
-									reply={reply}
-									userId={userId}
-									moment={moment}
-									update={update_reply}
-									remove={remove_reply}
-								/>
-						  ))
-						: null}
-					<Form
-						reply
-						onSubmit={() => create_reply(comment.id, comment.reply_content)}
-					>
-						<Form.Group inline>
-							<Form.Input
-								label="Reply"
-								width={10}
-								style={{ height: 30 }}
-								onChange={(e) => onChangeReply(e, index)}
-								value={comment.reply_content}
-							/>
-						</Form.Group>
-					</Form>
+					<Replies commentId={comment.id} loadReplies={!comment.collapsed} />
 				</CommentSUI.Group>
 			</CommentSUI>
 		));
@@ -263,9 +210,4 @@ const Comment = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		profile: state.profile.profile
-	};
-};
-export default connect(mapStateToProps, { fetchProfile })(Comment);
+export default Comment;

@@ -6,10 +6,7 @@ import {
 	fetchComments,
 	createComment,
 	updateComment,
-	deleteComment,
-	createReply,
-	updateReply,
-	deleteReply
+	deleteComment
 } from './store/actions/actions';
 
 const Connect = (props) => {
@@ -18,9 +15,6 @@ const Connect = (props) => {
 		createComment,
 		updateComment,
 		deleteComment,
-		createReply,
-		updateReply,
-		deleteReply,
 		comments,
 		loading,
 		requestId,
@@ -29,12 +23,6 @@ const Connect = (props) => {
 
 	useEffect(() => requestId && fetchComments(requestId), [
 		fetchComments,
-		createComment,
-		updateComment,
-		deleteComment,
-		createReply,
-		updateReply,
-		deleteReply,
 		requestId
 	]);
 
@@ -50,18 +38,6 @@ const Connect = (props) => {
 		deleteComment(requestId, commentId);
 	};
 
-	const createReplyHandler = (commentId, content) => {
-		createReply(commentId, content, requestId);
-	};
-
-	const updateReplyHandler = (replyId, content, commentId) => {
-		updateReply(replyId, content, commentId, requestId);
-	};
-
-	const deleteReplyHandler = (replyId) => {
-		deleteReply(replyId, requestId);
-	};
-
 	return loading ? (
 		<Spinner animation="border" />
 	) : (
@@ -70,11 +46,9 @@ const Connect = (props) => {
 			create={createCommentHandler}
 			update={updateCommentHandler}
 			remove={deleteCommentHandler}
-			create_reply={createReplyHandler}
-			update_reply={updateReplyHandler}
-			remove_reply={deleteReplyHandler}
 			loading={loading}
 			userId={parseInt(user_id)}
+			requestId={requestId}
 		/>
 	);
 };
@@ -92,8 +66,5 @@ export default connect(mapStateToProps, {
 	fetchComments,
 	createComment,
 	updateComment,
-	deleteComment,
-	createReply,
-	updateReply,
-	deleteReply
+	deleteComment
 })(Connect);

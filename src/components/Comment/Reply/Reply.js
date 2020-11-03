@@ -1,35 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../../../shared/axios';
 import { useHistory } from 'react-router-dom';
 import { Comment as ReplySUI, Form } from 'semantic-ui-react';
 import { Button as BSButton, Modal } from 'react-bootstrap';
 import { BsXSquare } from 'react-icons/bs';
-import moment from 'moment';
 import './Reply.css';
 
 const Reply = (props) => {
-	const { reply, userId, update, remove } = props;
+	const { reply, userId, update, remove, moment } = props;
 	const isOwner = userId === reply.author;
 
 	const [authorAvatar, setAuthorAvatar] = useState();
 
 	useEffect(() => {
-		let mounted = true;
-
-		const url = `/profile/${reply.author}/`;
-
-		axios
-			.get(url)
-			.then((response) => {
-				const payload = response.data.image;
-				if (mounted) {
-					setAuthorAvatar(payload);
-				}
-			})
-			.catch((error) => {});
-
-		return () => (mounted = false);
-	}, [reply.author]);
+		if (reply) {
+			setAuthorAvatar(reply.author_image);
+		}
+	}, [reply]);
 
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [deleteReplyId, setDeleteReplyId] = useState(null);
@@ -50,7 +36,7 @@ const Reply = (props) => {
 				<BSButton variant="secondary" onClick={() => setShowDeleteModal(false)}>
 					Close
 				</BSButton>
-				<BSButton variant="danger" onClick={() => remove(deleteReplyId)}>
+				<BSButton variant="danger" onClick={() => handleDelete()}>
 					Yes, Delete
 				</BSButton>
 			</Modal.Footer>
@@ -69,7 +55,15 @@ const Reply = (props) => {
 	const [onEdit, setOnEdit] = useState(false);
 	const toggleEdit = () => setOnEdit(!onEdit);
 	const handleSubmit = () => {
-		update(reply.id, replyContent, reply.comment);
+		update(reply.id, replyContent);
+		setOnEdit(false);
+	};
+
+	const handleDelete = () => {
+		remove(deleteReplyId);
+		setShowDeleteModal(false);
+		setOnEdit(false);
+		setReplyContent(reply.reply_content);
 	};
 
 	return (
