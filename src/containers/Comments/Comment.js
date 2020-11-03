@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Comment as CommentSUI, Form } from 'semantic-ui-react';
-import { Button as BSButton } from 'react-bootstrap';
+import { Tabs, Tab } from 'react-bootstrap';
+import { Button, Comment as CommentSUI, Form } from 'semantic-ui-react';
+import { Button as BSButton, Modal } from 'react-bootstrap';
 import { FiChevronDown } from 'react-icons/fi';
 import { BsPencil, BsXSquare } from 'react-icons/bs';
 import Aux from '../../hoc/Aux/Aux';
-import './Comment.css';
-import Replies from '../../containers/Replies/Replies';
+import './Comments.css';
+import Replies from '../Replies/Replies';
 
 const Comment = (props) => {
 	const {
 		comment,
+		create,
 		update,
 		userId,
 		moment,

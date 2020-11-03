@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Aux from '../../../hoc/Aux/Aux';
 import { Spinner, Button, Container, Table } from 'react-bootstrap';
 import Volunteer from '../Volunteer';
-import Connect from '../../../containers/Connect/Connect';
+import Comments from '../../Comments/Comments';
 import Donation from '../../Donation/Donation';
 import ReimbursementInfo from '../../Reimbursement/ReimbursementInfo';
 import { connect } from 'react-redux';
@@ -159,7 +159,7 @@ const VolunteerDetail = (props) => {
 					setOnDonate={setOnDonate}
 				/>
 
-				<Connect requestId={request.id} />
+				<Comments requestId={request.id} />
 			</Aux>
 		);
 	}

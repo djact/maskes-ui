@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from '../../../shared/axios';
+import axios from '../../shared/axios';
 import { Form, Button, Input } from 'semantic-ui-react';
-import Reply from '../../../components/Comment/Reply/Reply';
+import Reply from '../../components/Reply/Reply';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import Aux from '../../../hoc/Aux/Aux';
+import Aux from '../../hoc/Aux/Aux';
 
 const Replies = (props) => {
 	const { userId, loadReplies, commentId } = props;
@@ -12,7 +12,7 @@ const Replies = (props) => {
 	const [replies, setReplies] = useState([]);
 
 	const fetchReply = useCallback(
-        () =>
+		() =>
 			axios
 				.post('/connect/replies/view_replies/', {
 					commentId: commentId
@@ -88,7 +88,6 @@ const Replies = (props) => {
 	const [replyContent, setReplyContent] = useState('');
 	const onChangeReply = (e) => {
 		setReplyContent(e.target.value);
-		console.log(replyContent);
 	};
 
 	const [showReplyInput, setShowReplyInput] = useState(false);
