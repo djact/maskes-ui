@@ -8,7 +8,6 @@ import myVolunteer from '../containers/Volunteer/MyVolunteer/store/reducer/reduc
 import reimbursement from '../containers/Reimbursement/store/reducer/reducer';
 import donation from '../containers/Donation/store/reducer/reducer';
 import alerts from '../components/Alert/store/reducer/reducer';
-import connect from '../containers/Connect/store/reducer/reducer';
 import profile from '../containers/UserProfile/store/reducer/reducer';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -23,7 +22,6 @@ const rootReducer = combineReducers({
   myVolunteer,
   alerts,
   reimbursement,
-  connect,
   profile,
   donation,
 });
