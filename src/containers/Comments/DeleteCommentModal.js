@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button as BSButton, Modal } from 'react-bootstrap';
-import './Comments.css';
+import '../../components/Comment/Comment.css';
 
 const DeleteCommentModal = (props) => {
 	const {

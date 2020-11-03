@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Tabs, Tab } from 'react-bootstrap';
 import { Button, Comment as CommentSUI, Form } from 'semantic-ui-react';
 import DeleteCommentModal from './DeleteCommentModal';
-import './Comments.css';
+import '../../components/Comment/Comment.css';
 
 const Comments = (props) => {
 	const { userId, requestId } = props;
