@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios from '../../shared/axios';
 import { connect } from 'react-redux';
 import Aux from '../../hoc/Aux/Aux';
@@ -10,6 +10,8 @@ import DeleteCommentModal from './DeleteCommentModal';
 import '../../components/Comment/Comment.css';
 
 const Comments = (props) => {
+	let mounted = useRef(false);
+
 	const { userId, requestId } = props;
 
 	const [comments, setComments] = useState([]);
@@ -21,7 +23,10 @@ const Comments = (props) => {
 			requestId: requestId
 		};
 		axios.post(url, body).then((res) => {
-			setComments(res.data.results);
+			if (mounted.current) {
+				setComments(res.data.results);
+			}
+			return null;
 		});
 	}, [requestId]);
 
@@ -69,7 +74,9 @@ const Comments = (props) => {
 	};
 
 	useEffect(() => {
+		mounted.current = true;
 		fetchComment();
+		return () => (mounted.current = false);
 	}, [fetchComment]);
 
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
