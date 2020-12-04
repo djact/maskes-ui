@@ -1,64 +1,85 @@
 .waveFooter {
-    background-image: linear-gradient(to bottom, #8a264f 20%, #343a40 100%) !important;
+	background-image: linear-gradient(
+		to bottom,
+		#8a264f 20%,
+		#343a40 100%
+	) !important;
 }
 
 .subscribe-email {
-    border-color: transparent !important;
-    border-bottom: 1px solid white !important;
-    padding: 2px;
-    padding-bottom: 0.1rem;
-    background-color: transparent !important;
-    color: white !important;
+	border-color: transparent !important;
+	border-bottom: 1px solid white !important;
+	padding: 2px;
+	padding-bottom: 0.1rem;
+	background-color: transparent !important;
+	color: white !important;
 }
 
-.subscribe-email::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: white;
-    opacity: 1; /* Firefox */
-  }
+.subscribe-email::placeholder {
+	/* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: white;
+	opacity: 1; /* Firefox */
+}
 
 .subscribe-email:focus {
-    border-color: inherit;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+	border-color: inherit;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .fb-icon {
-  font-size: 1.5rem !important;
-  cursor: pointer;
+	font-size: 1.5rem !important;
+	cursor: pointer;
 }
 
 .fb-icon:hover {
-  background-color: white;
-  color: rgb(0, 145, 255);
-  border-radius: 20%;
+	background-color: white;
+	color: rgb(0, 145, 255);
+	border-radius: 20%;
 }
 
 .ig-icon {
-  font-size: 1.5rem !important;
-  cursor: pointer;
+	font-size: 1.5rem !important;
+	cursor: pointer;
 }
 
 .ig-icon:hover {
-  background-image: linear-gradient(to bottom, #bb456e 5%, #ffae00 60%  ,#da1f1f 100%);
-  border-radius: 20%;
-  color: white;
+	background-image: linear-gradient(
+		to bottom,
+		#bb456e 5%,
+		#ffae00 60%,
+		#da1f1f 100%
+	);
+	border-radius: 20%;
+	color: white;
 }
 
 .tw-icon {
-  font-size: 1.5rem !important;
-  cursor: pointer;
+	font-size: 1.5rem !important;
+	cursor: pointer;
 }
 
 .tw-icon:hover {
-  color: rgba(0, 217, 255, 0.851);
+	color: rgba(0, 217, 255, 0.851);
+}
+
+.pt-icon {
+	font-size: 1.5rem !important;
+	cursor: pointer;
+}
+
+.pt-icon:hover {
+	background: #052d49 0%;
+	color: #f96854;
+	border-radius: 20%;
 }
 
 .wa-icon {
-  font-size: 1.5rem !important;
-  cursor: pointer;
+	font-size: 1.5rem !important;
+	cursor: pointer;
 }
 
 .wa-icon:hover {
-  color: rgb(41, 187, 15);
-  border-radius: 20%;
+	color: rgb(41, 187, 15);
+	border-radius: 20%;
 }
