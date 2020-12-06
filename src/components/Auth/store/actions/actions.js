@@ -51,7 +51,10 @@ export const logoutSuccess = () => {
 
 export const logout = () => {
 	return (dispatch) => {
-		axios
+		if(process.env.NODE_ENV==='development') {
+			dispatch(logoutSuccess());
+		} else {
+			axios
 			.post('/blacklist/', { refresh: localStorage.getItem('refresh') })
 			.then((response) => {
 				dispatch(logoutSuccess());
@@ -59,6 +62,8 @@ export const logout = () => {
 			.catch((error) => {
 				dispatch(logoutSuccess());
 			});
+		}
+		
 	};
 };
 
@@ -166,5 +171,22 @@ export const authCheckLoginState = () => {
 		if (access) {
 			dispatch(authSuccess(payload));
 		}
+	};
+};
+
+export const devLogin = () => {
+	return (dispatch) => {
+		dispatch(authStart());
+		const responseData = {
+			access: 'developer dummy access token',
+			refresh: 'developer dummy refresh token',
+			is_requester: true,
+			is_volunteer: true,
+			name: 'developer',
+			user_id: 'developerID'
+		};
+		setLocalStorageAndAxios(responseData);
+		dispatch(authSuccess(responseData));
+		dispatch(hideAuthModal());
 	};
 };
