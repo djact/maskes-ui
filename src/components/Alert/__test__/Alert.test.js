@@ -1,9 +1,6 @@
 import React from 'react';
 import { render, shallow } from 'enzyme';
 import Alert from '../Alert';
-// import toJson from 'enzyme-to-json';
-
-describe('Alert', () => {});
 
 describe('Alert', () => {
 	it('should render correctly without props', () => {
