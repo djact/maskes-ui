@@ -10,7 +10,7 @@ import Aux from '../../../hoc/Aux/Aux';
 import './AuthModal.css';
 
 const AuthModal = (props) => {
-    const { showModal, hideModal, isLogin, loading, error, onSubmit, hasLogin, switchMode, onChange, is_volunteer, is_requester } = props
+    const { showModal, hideModal, isLogin, loading, error, onSubmit, hasLogin, switchMode, onChange, is_volunteer, is_requester, devLogin } = props
     const loading_button = (
         <Button className="auth-button" variant="primary" disabled block>
             <Spinner
@@ -27,8 +27,11 @@ const AuthModal = (props) => {
     let alert_messages = []
 
     if (error) {
-        if (error.response.data.detail) {
+        if (error.response && error.response.data) {
             alert_messages = [...alert_messages, error.response.data.detail]
+        }
+        if (error.msg) {
+            alert_messages = [...alert_messages, error.msg]
         }
     }
 
@@ -77,6 +80,18 @@ const AuthModal = (props) => {
                                 history.push("/password-reset");
                                 hideModal();
                                 }}>Reset password</button></p>
+                            
+							{process.env.NODE_ENV === 'development' && 
+							<p className="text-right text-muted mb-3">
+								Developer?{' '}
+								<button
+									className="auth-btn-link"
+									onClick={devLogin}
+								>
+									Login here
+								</button>
+							</p>
+						}
                     </Aux>
                 )}
 
