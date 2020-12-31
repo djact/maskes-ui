@@ -62,3 +62,4 @@ jobs:
             sudo chmod -R 755 static
             sudo chmod -R 755 build
             git checkout -- build/home.html
+            rm -rf staticfiles/
