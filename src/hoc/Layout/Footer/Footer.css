@@ -28,7 +28,7 @@
 }
 
 .fb-icon {
-	font-size: 1.5rem !important;
+	font-size: 1.6rem !important;
 	cursor: pointer;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .ig-icon {
-	font-size: 1.5rem !important;
+	font-size: 1.6rem !important;
 	cursor: pointer;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .tw-icon {
-	font-size: 1.5rem !important;
+	font-size: 1.6rem !important;
 	cursor: pointer;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .pt-icon {
-	font-size: 1.5rem !important;
+	font-size: 1.6rem !important;
 	cursor: pointer;
 }
 
@@ -75,11 +75,30 @@
 }
 
 .wa-icon {
-	font-size: 1.5rem !important;
+	font-size: 1.6rem !important;
 	cursor: pointer;
 }
 
 .wa-icon:hover {
 	color: rgb(41, 187, 15);
 	border-radius: 20%;
+}
+
+.ui.inverted.link.list .item .list-item {
+	color: rgba(255, 255, 255, 0.5) !important;
+}
+.ui.inverted.link.list .item .list-item:hover {
+	color: rgb(255, 255, 255) !important;
+	text-decoration: none;
+}
+
+.quote-ma {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 0.9rem;
+	font-style: italic;
+}
+.quote-ma:hover {
+	color: rgb(244, 176, 3);
+	font-size: 0.9rem;
+	font-style: italic;
 }
