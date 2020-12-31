@@ -6,7 +6,7 @@ import Profile from '../../components/Profile/Profile';
 const UserProfile = (props) => {
     const { myId } = props
 
-    const [profile, setProfile] = useState(null);
+    const [profile, setProfile] = useState([]);
 
     const [error, setError] = useState(null)
 
@@ -20,11 +20,17 @@ const UserProfile = (props) => {
         const url = `/profile/${userId}/`
         axios.get(url)
             .then(response => {
-                const payload = response.data
-                setProfile(payload)
+                console.log(response)
+                if(response.data) {
+                    const payload = response.data
+                    setProfile(payload)
+                }
             })
             .catch(error => {
-                setError(error.response.data.detail)
+                console.log(error)
+                if(error.response && error.response.data) {
+                    setError(error.response.data.detail)
+                }
             })
     }, [userId])
 
