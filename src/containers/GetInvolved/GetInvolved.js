@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 const GetInvolved = () => {
 	return (
-		<Container className="mt-5">
+		<Container className="p-5">
 			<h3>Get Involved</h3>
 			<hr />
 
