@@ -88,7 +88,7 @@ const validationSchema = Yup.object({
 	volunteer_hours: Yup.number().required('Required'),
 	languages: Yup.string().max(200, 'Please enter less than 200 characters'),
 	coordinating: Yup.string(),
-	storage_space: Yup.string(),
+	storage_space: Yup.string().max(200, 'Please enter less than 200 characters'),
 	pickup_concern: Yup.string().max(200, 'Please enter less than 200 characters')
 });
 
@@ -99,6 +99,11 @@ const OfferSupportForm = (props) => {
 
 	useEffect(() => {
 		if (requestData) {
+			for (let key of Object.keys(requestData)) {
+				if (Array.isArray(requestData[key])) {
+					requestData[key] = requestData[key].split(', ');
+				}
+			}
 			setFormValues({
 				contact_preference: requestData.contact_preference,
 				locations: requestData.locations,
@@ -128,7 +133,11 @@ const OfferSupportForm = (props) => {
 	const onSubmit = (values, actions) => {
 		actions.setSubmitting(false);
 		setVolunteerInfo(values);
-		console.log(values);
+		for (let key of Object.keys(values)) {
+			if (Array.isArray(values[key])) {
+				values[key] = values[key].join(', ');
+			}
+		}
 		// actions.resetForm();
 		setNext(true);
 	};

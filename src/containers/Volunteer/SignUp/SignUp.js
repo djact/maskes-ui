@@ -7,45 +7,27 @@ import OfferSupportForm from '../../../components/Form/RequestForm/OfferSupportF
 import PropTypes from 'prop-types';
 
 const SignUp = (props) => {
-	const [formData, setFormData] = useState({
-		first_name: '',
-		last_name: '',
-		display_name: '',
-		email: '',
-		password: ''
-	});
-
 	const hasAccount = false;
 	const is_volunteer = true;
 	const is_requester = false;
 
-	const { first_name, last_name, display_name, email, password } = formData;
-	const { onAuth, isLoading, isAuthenticated } = props;
+	const { onAuth, isAuthenticated, error } = props;
 
-	const onChange = (event) =>
-		setFormData({ ...formData, [event.target.name]: event.target.value });
-
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		onAuth(
-			first_name,
-			last_name,
-			display_name,
-			email,
-			password,
+	const handleSubmit = async (data) =>
+		await onAuth(
+			data.first_name,
+			data.last_name,
+			data.display_name,
+			data.email,
+			data.password,
 			hasAccount,
 			is_requester,
-			is_volunteer
+			is_volunteer,
+			data.volunteerInfo
 		);
-		createVolunteer(volunteerInfo);
-	};
-
-	const createVolunteer = (info) => {
-		console.log(info);
-	};
 
 	const [volunteerInfo, setVolunteerInfo] = useState();
-	const [next, setNext] = useState(false);
+	const [next, setNext] = useState(true);
 
 	return isAuthenticated ? (
 		<Redirect to="/volunteer" />
@@ -53,14 +35,17 @@ const SignUp = (props) => {
 		<React.Fragment>
 			{next ? (
 				<VolunteerSignUpForm
-					loading={isLoading}
 					handleSubmit={handleSubmit}
-					onChange={onChange}
+					setNext={setNext}
+					setVolunteerInfo={setVolunteerInfo}
+					volunteerInfo={volunteerInfo}
+					error={error}
 				/>
 			) : (
 				<OfferSupportForm
 					setNext={setNext}
 					setVolunteerInfo={setVolunteerInfo}
+					volunteerInfo={volunteerInfo}
 				/>
 			)}
 		</React.Fragment>
@@ -68,14 +53,14 @@ const SignUp = (props) => {
 };
 const mapStateToProps = (state) => {
 	return {
-		isLoading: state.auth.loading,
-		isAuthenticated: state.auth.access !== null
+		isAuthenticated: state.auth.access !== null,
+		error: state.auth.error
 	};
 };
 
 SignUp.propTypes = {
 	onAuth: PropTypes.func,
-	isLoading: PropTypes.bool,
+	error: PropTypes.object,
 	isAuthenticated: PropTypes.bool
 };
 
