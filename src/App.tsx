@@ -25,9 +25,6 @@ import VolunteerList from './containers/Volunteer/VolunteerList/VolunteerList';
 import VolunteerDetail from './containers/Volunteer/VolunteerDetail/VolunteerDetail';
 import MyVolunteerList from './containers/Volunteer/MyVolunteer/MyVolunteerList';
 import MyVolunteerDetail from './containers/Volunteer/MyVolunteer/MyVolunteerDetail';
-import SignUp from './containers/Volunteer/SignUp/SignUp';
-import AdminTeam from './containers/GetInvolved/AdminTeam';
-import Donation from './containers/GetInvolved/Donation';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { withRouter } from 'react-router';
@@ -87,11 +84,8 @@ const App = ({
 	const public_routes = (
 		<Switch>
 			<Route exact path="/" component={Home} />
-			<Route exact path="/get-help" component={GetHelp} />
-			<Route exact path="/get-involved" component={GetInvolved} />
-			<Route exact path="/volunteer/signup" component={SignUp} />
-			<Route exact path="/get-involved/admin-team" component={AdminTeam} />
-			<Route exact path="/get-involved/donation" component={Donation} />
+			<Route path="/get-help" component={GetHelp} />
+			<Route path="/get-involved" component={GetInvolved} />
 			<Route exact path="/faq" component={Faq} />
 			<Redirect from="/admin" to="/admin/" />
 		</Switch>

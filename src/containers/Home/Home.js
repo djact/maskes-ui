@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './Home.css';
 import { openAuthModal } from '../../components/Auth/store/actions/actions';
+import { withRouter } from 'react-router-dom';
 
 import {
 	Button,
@@ -148,7 +149,7 @@ ResponsiveContainer.propTypes = {
 	children: PropTypes.node
 };
 
-const Home = ({ openAuthModal, isAuthenticated }) => (
+const Home = withRouter(({ openAuthModal, isAuthenticated, history }) => (
 	<ResponsiveContainer
 		openAuthModal={openAuthModal}
 		isAuthenticated={isAuthenticated}
@@ -182,10 +183,16 @@ const Home = ({ openAuthModal, isAuthenticated }) => (
 							We Need Your Support
 						</Header>
 						<p style={{ fontSize: '1.33em' }}>
-							Our Offer Support/Volunteer form is still open!
+							We want to build towards a future of care and safety with you! To
+							get involved as a supporter, please fill out our “Offer Support”
+							form!
 						</p>
-						<Button className="check-it-out" size="big">
-							Check It Out
+						<Button
+							className="check-it-out"
+							size="big"
+							onClick={() => history.push('/get-involved/signup')}
+						>
+							Offer Support Form
 						</Button>
 					</Grid.Column>
 					<Grid.Column
@@ -284,7 +291,7 @@ const Home = ({ openAuthModal, isAuthenticated }) => (
 			</Container>
 		</Segment>
 	</ResponsiveContainer>
-);
+));
 
 const mapStateToProps = (state) => {
 	return {
