@@ -27,7 +27,7 @@ const SignUp = (props) => {
 		);
 
 	const [volunteerInfo, setVolunteerInfo] = useState();
-	const [next, setNext] = useState(true);
+	const [next, setNext] = useState(false);
 
 	return isAuthenticated ? (
 		<Redirect to="/volunteer" />
