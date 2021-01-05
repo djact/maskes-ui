@@ -19,7 +19,7 @@ const Donation = () => {
 			>
 				We are completely community funded! Can you make recurring donations to
 				us on our Patreon? Please share our Patreon with your family, friends
-				and network. \nhttps://www.patreon.com/skcemutualaid. \n Donation via
+				and network. \nhttps://www.patreon.com/skcemutualaid \n Donation via
 				this website is being developed
 			</ListRow>
 		</Container>
