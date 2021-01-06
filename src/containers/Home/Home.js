@@ -8,7 +8,6 @@ import { withRouter } from 'react-router-dom';
 import {
 	Button,
 	Container,
-	Divider,
 	Grid,
 	Header,
 	Icon,
@@ -17,6 +16,7 @@ import {
 	Segment,
 	Visibility
 } from 'semantic-ui-react';
+import { Events } from './Events';
 import skesma1 from '../../assets/images/skesma-1.jpg';
 
 const HomepageHeading = ({ mobile, isAuthenticated, openAuthModal }) => (
@@ -247,49 +247,7 @@ const Home = withRouter(({ openAuthModal, isAuthenticated, history }) => (
 			</Grid>
 		</Segment>
 
-		<Segment style={{ padding: '8em 0em' }} vertical>
-			<Container text>
-				<Divider
-					as="h4"
-					className="header"
-					horizontal
-					style={{ margin: '3em 0em', textTransform: 'uppercase' }}
-				>
-					<a href="#root">Upcoming Events</a>
-				</Divider>
-
-				<Header as="h3" style={{ fontSize: '2em' }}>
-					Fundraising Music Show
-				</Header>
-				<p style={{ fontSize: '1.33em' }}>
-					Come and join us on September 1, 2020.
-				</p>
-				<Button as="a" size="large">
-					I'm Interested
-				</Button>
-
-				<Divider
-					as="h4"
-					className="header"
-					horizontal
-					style={{ margin: '3em 0em', textTransform: 'uppercase' }}
-				>
-					<a href="#root">Recent Events</a>
-				</Divider>
-
-				<Header as="h3" style={{ fontSize: '1.5em' }}>
-					Essential Items Drop Off
-				</Header>
-				<p style={{ fontSize: '1.33em' }}>
-					Under construction! Lorem ipsum dolor sit amet, consectetur adipiscing
-					elit. Donec dictum nibh nec risus sodales elementum. Phasellus at mi
-					fringilla, ultricies magna eu, dictum quam. Morbi sed erat velit.
-				</p>
-				<Button as="a" size="large">
-					Read More
-				</Button>
-			</Container>
-		</Segment>
+		<Events />
 	</ResponsiveContainer>
 ));
 
