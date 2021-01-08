@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import bsCustomFileInput from 'bs-custom-file-input';
 import { Button, Modal, Form, InputGroup } from 'react-bootstrap';
 import { setAlert } from '../Alert/store/actions/actions';
 import axios from '../../shared/axios';
@@ -6,6 +7,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const UploadProfilePhotoForm = (props) => {
+	useEffect(() => {
+		bsCustomFileInput.init();
+	});
 	const { handleClose, profileId, setPhotoPath, setAlert } = props;
 
 	const [profilePhoto, setProfilePhoto] = useState();
