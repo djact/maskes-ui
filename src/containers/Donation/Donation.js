@@ -1,157 +1,120 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchDonation, createDonation, updateDonation, deleteDonation } from './store/actions/actions';
-import Aux from '../../hoc/Aux/Aux';
-import { Badge, Table, Button, Spinner, ProgressBar } from 'react-bootstrap';
-import DonationForm from '../../components/Form/DonationForm';
-import EditDonationModal from './EditDonationModal/EditDonationModal';
-import DeleteDonationModal from '../../components/Modal/DeleteModal/DeleteModal';
-import { FaDonate } from 'react-icons/fa';
-import EditMenu from './EditMenu/EditMenu';
-import moment from 'moment';
+import { fetchDonation } from './store/actions/actions';
 import './Donation.css';
+import { Badge, Table, Button, Spinner, ProgressBar } from 'react-bootstrap';
+import { FaDonate } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+
+import Aux from '../../hoc/Aux/Aux';
+import DonationForm from './DonationForm';
 
 const Donation = (props) => {
-    const { donation, loading, requestId, budget,
-        supporter, supporterId,
-        reimbursementStatus,
-        onDonate, setOnDonate,
-        fetchDonation, createDonation,
-        updateDonation, deleteDonation, userId } = props;
+	const {
+		donation,
+		loading,
+		requestId,
+		budget,
+		fetchDonation,
+		reimbursementStatus
+	} = props;
+	const [onDonate, setOnDonate] = useState(false);
+	const history = useHistory();
 
-    const history = useHistory()
+	useEffect(() => {
+		if (requestId) {
+			fetchDonation(requestId);
+		}
+	}, [fetchDonation, requestId]);
 
-    const [dns, setDns] = useState([])
+	let donation_progress;
+	let display = <Spinner />;
 
-    useEffect(() => {
-        if (requestId) {
-            fetchDonation(requestId)
-        }
-    }, [fetchDonation, requestId])
+	if (donation && !loading) {
+		const total_donation = donation.reduce((t, d) => t + parseInt(d.amount), 0);
+		let progress = Math.floor((total_donation / budget) * 100);
+		progress = progress > 100 ? 100 : progress;
+		donation_progress = (
+			<ProgressBar
+				variant={progress === 100 ? 'success' : 'primary'}
+				animated
+				now={progress}
+				label={`${progress}%`}
+			/>
+		);
 
-    useEffect(() => {
-        setDns(donation ?
-            donation.map((d, i) => {
-                d.key = i;
-                d.showEdit = false;
-                d.showDelete = false;
-                return d
-            }) : [])
-    }, [donation, fetchDonation])
+		display = (
+			<Aux>
+				<h5 style={{ fontWeight: 'bold' }}>Donation Infomation</h5>
+				<Badge
+					variant={reimbursementStatus === 'In Process' ? 'warning' : 'success'}
+					className="mb-2"
+				>
+					{reimbursementStatus}
+				</Badge>
 
-    let display = <Spinner animation="grow" />
+				<h5 style={{ display: 'flex' }}>Budget: ${budget}</h5>
+				{donation_progress}
+				<Table size="sm" responsive="sm">
+					<thead>
+						<tr>
+							<th>Donator</th>
+							<th>Amount</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						{donation.map((d, idx) => (
+							<tr key={idx}>
+								<td
+									className="l-button"
+									onClick={() => history.push(`/profile/${d.donator.id}`)}
+								>
+									{d.donator.display_name}
+								</td>
+								<td>{d.amount}</td>
+								<td>{d.status}</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			</Aux>
+		);
+	}
 
-    const toggleShowModal = (e, i, type) => {
-        setDns(dns.map((d, j) => {
-            if (j === i) {
-                if (type === "update") {
-                    d.showEdit = !d.showEdit
-                } else if (type === "delete") {
-                    d.showDelete = !d.showDelete
-                }
-                return d
-            } else {
-                return d
-            }
-        }))
-    };
-
-
-    if (donation && !loading && dns) {
-        const total_donation = dns.reduce((t, d) => t + parseInt(d.amount), 0);
-        const bg = parseInt(budget);
-        let progress = Math.floor((total_donation / bg) * 100);
-        progress = (progress > 100) ? 100 : progress
-        const donation_progress = <ProgressBar variant={progress === 100 ? "success" : "primary"} animated now={progress} label={`${progress}%`} />;
-        display = (
-            <Aux>
-                <h5 style={{ fontWeight: 'bold' }}>Donation Infomation</h5>
-                <Badge variant={reimbursementStatus === 'In Process' ? "warning" : "success"} className='mb-2'>{reimbursementStatus}</Badge>
-                {supporter ? <h6 className="my-">Delivery Supporter <Button variant="link" onClick={() => history.push(`/profile/${supporterId}`)}>{supporter}</Button></h6> : null}
-                <h5 style={{ display: "flex" }}>Budget: ${budget}</h5>
-                {donation_progress}
-                <Table size="sm" responsive='sm'>
-                    <thead>
-                        <tr>
-                            <th>Donator</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody >
-                        {dns.map((d, idx) => <tr key={idx}>
-                            <td
-                                className="l-button"
-                                onClick={() => history.push(`/profile/${d.donator.id}`)}
-                            >{d.donator.display_name}</td>
-                            <td>{d.amount}</td>
-                            <td>{d.status}</td>
-                            <td>{moment(d.updated_date).fromNow()}</td>
-                            <td>{
-                                parseInt(userId) === d.donator.id &&
-                                <Aux>
-                                    <EditDonationModal
-                                        handleClose={(e) => toggleShowModal(e, idx, "update")}
-                                        show={d.showEdit}
-                                        donationId={d.id}
-                                        update={updateDonation}
-                                        donationAmount={d.amount}
-                                        donationStatus={d.status === "Sent"}
-                                        requestId={requestId}
-                                    />
-                                    <DeleteDonationModal
-                                        showDeleteModal={d.showDelete}
-                                        closeModalHandler={(e) => toggleShowModal(e, idx, "delete")}
-                                        deleteHandler={() => deleteDonation(d.id, requestId)}
-                                        label={`donation ${d.amount}`}
-                                    />
-
-                                    <EditMenu
-                                        toggleShowEditModal={(e) => toggleShowModal(e, idx, "update")}
-                                        toggleShowDeleteModal={(e) => toggleShowModal(e, idx, "delete")}
-                                    />
-                                </Aux>
-                            }</td>
-                        </tr>)}
-                    </tbody>
-                </Table>
-            </Aux>
-
-        )
-    }
-
-    return (
-        <Aux>
-
-            {!onDonate
-                ? <Button size='lg'
-                    className='mt-1 mb-3 '
-                    variant='outline-primary donate-button'
-                    onClick={() => setOnDonate(true)}
-                >Donate! <FaDonate className='mb-1' /></Button>
-                : <DonationForm
-                    requestId={requestId}
-                    setOnDonate={setOnDonate}
-                    create={createDonation}
-                />
-
-            }
-
-
-            {display}
-        </Aux>
-
-    )
+	return (
+		<Aux>
+			{!onDonate ? (
+				<Button
+					size="lg"
+					className="mt-1 mb-3 "
+					variant="outline-primary donate-button"
+					onClick={() => setOnDonate(true)}
+				>
+					Donate! <FaDonate className="mb-1" />
+				</Button>
+			) : (
+				<DonationForm requestId={requestId} setOnDonate={setOnDonate} />
+			)}
+			{display}
+		</Aux>
+	);
+};
+const mapStateToProps = (state) => {
+	return {
+		donation: state.donation.donation,
+		loading: state.donation.loading
+	};
 };
 
-const mapStateToProps = state => {
-    return {
-        donation: state.donation.donation,
-        loading: state.donation.loading,
-    }
-}
+export default connect(mapStateToProps, { fetchDonation })(Donation);
 
-export default connect(mapStateToProps, { fetchDonation, createDonation, updateDonation, deleteDonation })(Donation);
+Donation.propTypes = {
+	donation: PropTypes.array,
+	loading: PropTypes.bool,
+	requestId: PropTypes.number,
+	budget: PropTypes.number,
+	fetchDonation: PropTypes.func,
+	reimbursementStatus: PropTypes.string
+};
