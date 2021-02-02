@@ -23,20 +23,27 @@ const DonationForm = (props) => {
 			return;
 		}
 
-		const stripe = await stripePromise;
+		try {
+			const stripe = await stripePromise;
 
-		const amount = parseInt(donationAmount) * 100;
+			const amount = parseInt(donationAmount) * 100;
 
-		// Call backend to create the Checkout Session
-		const session = await donationAPI.createCheckoutSession(amount, requestId);
+			// Call backend to create the Checkout Session
+			const session = await donationAPI.createCheckoutSession(
+				amount,
+				requestId
+			);
 
-		// When the donator clicks on the button, redirect them to Checkout.
-		const result = await stripe.redirectToCheckout({
-			sessionId: session.id
-		});
+			// When the donator clicks on the button, redirect them to Checkout.
+			const result = await stripe.redirectToCheckout({
+				sessionId: session.id
+			});
 
-		if (result.error) {
-			console.log(result.error.message);
+			if (result.error) {
+				throw new Error(result.error.message);
+			}
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
