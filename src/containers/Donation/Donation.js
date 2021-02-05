@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Aux from '../../hoc/Aux/Aux';
 import DonationForm from './DonationForm';
 
-const Donation = (props) => {
+export const Donation = (props) => {
 	const {
 		donation,
 		loading,

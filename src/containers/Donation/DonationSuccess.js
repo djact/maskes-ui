@@ -7,7 +7,7 @@ const DonationSuccess = () => (
 		<p>
 			We appreciate your support for SKCEMA community! If you have any
 			questions, please email{' '}
-			<a href="mailto:skcema@gmail.com">skcema@gmail.com</a>.
+			<a href="mailto:skcemutualaid@gmail.com">skcemutualaid@gmail.com</a>.
 		</p>
 	</Container>
 );

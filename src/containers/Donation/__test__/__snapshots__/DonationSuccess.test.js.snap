@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DonationSuccess should render correctly without props 1`] = `
+<Container
+  fluid={false}
+>
+  <h1>
+    Thanks for your donation!
+  </h1>
+  <p>
+    We appreciate your support for SKCEMA community! If you have any questions, please email
+     
+    <a
+      href="mailto:skcemutualaid@gmail.com"
+    >
+      skcemutualaid@gmail.com
+    </a>
+    .
+  </p>
+</Container>
+`;

@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DonationForm should render correctly without props 1`] = `
+<Form
+  className="my-3"
+  inline={false}
+  onSubmit={[Function]}
+>
+  <h5
+    style={
+      Object {
+        "fontWeight": "bold",
+      }
+    }
+  >
+    Donation Instruction
+  </h5>
+  <p>
+    Please enter the amount you would like to donate and click on Checkout button. Then you will be redirect to checkout page via Square. If you have any question please contact our admins via
+     
+    <a
+      href="mailto: skcemutualaid@gmail.com"
+    >
+      skcemutualaid@gmail.com
+    </a>
+  </p>
+  <p>
+    Thank you for being an amazing supporter!
+  </p>
+  <InputGroup
+    className="mb-2 mr-sm-2"
+  >
+    <InputGroupPrepend>
+      <InputGroupText>
+        $
+      </InputGroupText>
+    </InputGroupPrepend>
+    <FormControl
+      max={999.99}
+      min={0}
+      name="donation_amount"
+      onChange={[Function]}
+      placeholder="Enter amount"
+      step={0.01}
+      type="number"
+    />
+  </InputGroup>
+  <Button
+    active={false}
+    className="mr-2"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+    variant="secondary"
+  >
+    Close
+  </Button>
+  <Button
+    active={false}
+    className="my-2"
+    disabled={false}
+    role="link"
+    type="submit"
+    variant="primary"
+  >
+    Checkout
+  </Button>
+</Form>
+`;

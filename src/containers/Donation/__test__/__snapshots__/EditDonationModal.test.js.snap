@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditDonationModal should render correctly without props 1`] = `
+<Form
+  inline={false}
+  onSubmit={[Function]}
+>
+  <Bootstrap(Modal)
+    centered={true}
+  >
+    <ModalBody>
+      <h3>
+        Edit Donation
+      </h3>
+      <hr />
+      <InputGroup
+        className="mb-2 mr-sm-2"
+      >
+        <InputGroupPrepend>
+          <InputGroupText>
+            $
+          </InputGroupText>
+        </InputGroupPrepend>
+        <FormControl
+          max={999.99}
+          min={0}
+          name="update_amount"
+          onChange={[Function]}
+          placeholder="Enter amount"
+          step={0.01}
+          type="number"
+          value={0}
+        />
+      </InputGroup>
+      <FormGroup>
+        <FormCheck
+          checked={false}
+          disabled={false}
+          inline={false}
+          isInvalid={false}
+          isValid={false}
+          label="Money transferred?"
+          name="update_status"
+          onChange={[Function]}
+          title=""
+          type="checkbox"
+        />
+      </FormGroup>
+    </ModalBody>
+    <ModalFooter>
+      <Button
+        active={false}
+        disabled={false}
+        type="button"
+        variant="secondary"
+      >
+        Close
+      </Button>
+      <Button
+        active={false}
+        disabled={false}
+        onClick={[Function]}
+        type="submit"
+        variant="primary"
+      >
+        Save Changes
+      </Button>
+    </ModalFooter>
+  </Bootstrap(Modal)>
+</Form>
+`;

@@ -4,7 +4,7 @@ const getPublicStripeKey = async () => {
 	const url = '/funds/donation/public-key/';
 	try {
 		const res = await axios.get(url);
-		return res.status === 200 && res.data.publicKey;
+		return res && res.status === 200 && res.data.publicKey;
 	} catch (err) {
 		console.log('API error:', { err });
 		throw Error('API Error');
