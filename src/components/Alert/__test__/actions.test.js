@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('actions', () => {
+describe('TEST REDUX ALERT ACTIONS', () => {
 	const id = 'randomID';
 	const payload = {
 		msg: 'test create alert',
@@ -23,13 +23,29 @@ describe('actions', () => {
 		alertId: id
 	};
 
-	it('should create an action to CREATE an alert', () => {
-		expect(
+	it('should create an actions to CREATE & REMOVE an alert', () => {
+		const initialState = [];
+		const store = mockStore(initialState);
+		// dispatch create Alert
+		store.dispatch(
 			actions.createAlert(payload.msg, payload.variant, payload.id)
-		).toEqual(expectedCreateAlert);
+		);
+		// dispatch remove Alert
+		store.dispatch(actions.removeAlert(payload.id));
+		const mockActions = store.getActions();
+		expect(mockActions).toEqual([expectedCreateAlert, expectedRemoveAlert]);
 	});
 
-	it('should create an action to REMOVE an alert', () => {
-		expect(actions.removeAlert(id)).toEqual(expectedRemoveAlert);
+	it('should execute set Alert', () => {
+		const store = mockStore([]);
+		return store
+			.dispatch(actions.setAlert(payload.msg, payload.variant, payload.id))
+			.then(() => {
+				const mockActions = store.getActions();
+				expect(mockActions).toEqual([
+					actions.createAlert(payload.msg, payload.variant, payload.id),
+					actions.removeAlert(payload.id)
+				]);
+			});
 	});
 });
