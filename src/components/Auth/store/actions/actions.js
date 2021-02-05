@@ -51,19 +51,19 @@ export const logoutSuccess = () => {
 
 export const logout = () => {
 	return (dispatch) => {
-		if(process.env.NODE_ENV==='development') {
+		// eslint-disable-next-line no-undef
+		if (process.env.NODE_ENV === 'development') {
 			dispatch(logoutSuccess());
 		} else {
 			axios
-			.post('/blacklist/', { refresh: localStorage.getItem('refresh') })
-			.then((response) => {
-				dispatch(logoutSuccess());
-			})
-			.catch((error) => {
-				dispatch(logoutSuccess());
-			});
+				.post('/blacklist/', { refresh: localStorage.getItem('refresh') })
+				.then(() => {
+					dispatch(logoutSuccess());
+				})
+				.catch(() => {
+					dispatch(logoutSuccess());
+				});
 		}
-		
 	};
 };
 
@@ -85,9 +85,10 @@ export const onAuth = (
 	password,
 	hasAccount,
 	is_requester,
-	is_volunteer
+	is_volunteer,
+	volunteerInfo
 ) => {
-	return (dispatch) => {
+	return async (dispatch) => {
 		dispatch(authStart());
 
 		const config = {
@@ -122,9 +123,12 @@ export const onAuth = (
 				});
 		} else {
 			url = '/users/';
+			if (is_volunteer) {
+				body.volunteer_info = volunteerInfo;
+			}
 			axios
 				.post(url, body, config)
-				.then((res) => {
+				.then(() => {
 					url = '/auth/jwt/create/';
 					axios
 						.post(url, body, config)
