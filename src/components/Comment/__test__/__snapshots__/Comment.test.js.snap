@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Comment should render comment correctly with passed in props 1`] = `
+<aux>
+  <Comment>
+    <CommentAvatar
+      as="a"
+      src="images/test.jpg"
+    />
+    <CommentContent>
+      <CommentAuthor
+        as="a"
+        onClick={[Function]}
+      >
+        Duc
+      </CommentAuthor>
+      <CommentMetadata>
+        <span>
+          a few seconds ago
+        </span>
+      </CommentMetadata>
+      <aux>
+        <CommentText>
+          test comment
+        </CommentText>
+        <CommentActions>
+          <CommentAction
+            as="a"
+            onClick={[Function]}
+          >
+            <CommentMetadata>
+              10
+               
+              Replies
+               
+            </CommentMetadata>
+          </CommentAction>
+          <CommentAction
+            as="a"
+            className="edit-btn"
+            onClick={[Function]}
+          >
+            <BsPencil />
+          </CommentAction>
+        </CommentActions>
+      </aux>
+    </CommentContent>
+    <CommentGroup
+      collapsed={true}
+    >
+      <Connect(Replies)
+        commentId="1"
+        loadReplies={false}
+      />
+    </CommentGroup>
+  </Comment>
+</aux>
+`;
+
+exports[`Comment should render comment correctly without props 1`] = `""`;

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Donation should render correctly without props 1`] = `
+<aux>
+  <Button
+    active={false}
+    className="mt-1 mb-3 "
+    disabled={false}
+    onClick={[Function]}
+    size="lg"
+    type="button"
+    variant="outline-primary donate-button"
+  >
+    Donate! 
+    <FaDonate
+      className="mb-1"
+    />
+  </Button>
+  <Spinner />
+</aux>
+`;

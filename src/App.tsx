@@ -30,6 +30,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { withRouter } from 'react-router';
 import { authCheckLoginState } from './components/Auth/store/actions/actions';
 import Faq from './containers/FAQ/Faq';
+import DonationSuccess from './containers/Donation/DonationSuccess';
 
 const App = ({
 	isAuthenticated,
@@ -88,6 +89,7 @@ const App = ({
 			<Route path="/get-involved" component={GetInvolved} />
 			<Route exact path="/faq" component={Faq} />
 			<Redirect from="/admin" to="/admin/" />
+			<Route path="/donation/success" component={DonationSuccess} />
 		</Switch>
 	);
 

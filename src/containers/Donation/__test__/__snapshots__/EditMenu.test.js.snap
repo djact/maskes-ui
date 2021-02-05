@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditMenu should render correctly without props 1`] = `
+<OverlayTrigger
+  defaultShow={false}
+  key="top"
+  overlay={
+    <ForwardRef
+      id="popover-positioned-top"
+      placement="right"
+    >
+      <ForwardRef
+        className="edit-menu-item"
+      >
+        <BsPencil
+          style={
+            Object {
+              "fontSize": "large",
+            }
+          }
+        />
+         Edit donation
+      </ForwardRef>
+      <ForwardRef
+        className="edit-menu-item"
+      >
+        <BsTrash
+          style={
+            Object {
+              "fontSize": "large",
+            }
+          }
+        />
+         Delete donation
+      </ForwardRef>
+    </ForwardRef>
+  }
+  placement="top"
+  rootClose={true}
+  trigger="click"
+>
+  <BsThreeDots
+    className="edit-dots"
+  />
+</OverlayTrigger>
+`;
