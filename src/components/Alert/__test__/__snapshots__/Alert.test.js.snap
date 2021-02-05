@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert should render correctly with passed in props 1`] = `
+Array [
+  <div
+    class="fade my-alert alert alert-danger show"
+    role="alert"
+  >
+    danger alert
+  </div>,
+  <div
+    class="fade my-alert alert alert-success show"
+    role="alert"
+  >
+    success alert
+  </div>,
+  <div
+    class="fade my-alert alert alert-warning show"
+    role="alert"
+  >
+    warning alert
+  </div>,
+]
+`;
+
+exports[`Alert should render correctly without props 1`] = `""`;

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Auth Component should shallow render correctly Auth component 1`] = `
+<AuthModal
+  isLogin={true}
+  onChange={[Function]}
+  onSubmit={[Function]}
+  switchMode={[Function]}
+/>
+`;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AuthModal from '../../components/Modal/AuthModal/AuthModal';
 import { hideAuthModal, onAuth, devLogin } from './store/actions/actions';
 
-const Auth = (props) => {
+export const Auth = (props) => {
 	const [formData, setFormData] = useState({
 		first_name: '',
 		last_name: '',
