@@ -55,17 +55,16 @@ const Category = (props) => {
 				<h2>{title}</h2>
 			</li>
 			{fetchedData &&
-				fetchedData.map((item: { gs$cell; content }, idx) => {
-					if (item.gs$cell.col === '1') {
-						return (
+				fetchedData.map(
+					(item: { gs$cell; content }, idx) =>
+						item.gs$cell.col === '1' && (
 							<ContentItem
 								key={idx}
 								title={item.content.$t}
 								content={fetchedData[idx + 1].content.$t}
 							/>
-						);
-					}
-				})}
+						)
+				)}
 		</ul>
 	);
 };
