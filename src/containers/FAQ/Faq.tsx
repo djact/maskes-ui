@@ -1,139 +1,116 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './faq.css';
 
 interface MenuItemProps {
-  title: string;
-  className?: string;
-  href: string;
+	title: string;
+	className?: string;
+	href: string;
 }
 
-const MenuItem: FC<MenuItemProps> = ({
-  title,
-  href,
-}) => {
-  return (
-    <li>
-      <a
-        className="faq__category faq__category-selected truncate"
-        href={href}
-      >
-        {title}
-      </a>
-    </li>
-  )
+const MenuItem: FC<MenuItemProps> = ({ title, href }) => {
+	return (
+		<li>
+			<a className="faq__category faq__category-selected truncate" href={href}>
+				{title}
+			</a>
+		</li>
+	);
 };
-
 
 interface ContentItemProps {
-  title: string;
-  content: string;
+	title: string;
+	content: string;
 }
 
-const ContentItem: FC<ContentItemProps> = ({
-  title,
-  content,
-}) => {
-  return (
-    <li className="faq__item">
-      <h4 className="faq__trigger">{title}</h4>
-      <div className="faq__content">
-        <p className="text-component">
-          {content}
-        </p>
-      </div>
-    </li>
-  )
+const ContentItem: FC<ContentItemProps> = ({ title, content }) => {
+	return (
+		<li className="faq__item">
+			<h4 className="faq__trigger">{title}</h4>
+			<div className="faq__content">
+				<p className="text-component">{content}</p>
+			</div>
+		</li>
+	);
 };
 
-interface Props { }
+const Category = (props) => {
+	const { title, sheetNumber } = props;
+	const [fetchedData, setFetchedData] = useState<
+		[{ gs$cell: string; content: { $t: string } }]
+	>();
+	const url = `https://spreadsheets.google.com/feeds/cells/1XJ5zx7tOudqkajF6JzozYsYm01DBSflIgyAS7o1M4Tk/${sheetNumber}/public/full?alt=json`;
+	useEffect(() => {
+		fetch(url)
+			.then((res) => res.json())
+			.then((data) => setFetchedData(data.feed.entry.slice(2)));
+	}, [url]);
+
+	let id = title.split(' ').join('');
+	id = id[0].toLowerCase() + id.slice(1);
+
+	return (
+		<ul id={id} className="faq__group">
+			<li className="faq__title">
+				<h2>{title}</h2>
+			</li>
+			{fetchedData &&
+				fetchedData.map((item: { gs$cell; content }, idx) => {
+					if (item.gs$cell.col === '1') {
+						return (
+							<ContentItem
+								key={idx}
+								title={item.content.$t}
+								content={fetchedData[idx + 1].content.$t}
+							/>
+						);
+					}
+				})}
+		</ul>
+	);
+};
+
+const General = () => <Category title={'General'} sheetNumber={1} />;
+
+const RequestingSupport = () => (
+	<Category
+		title={'Requesting Support'}
+		sheetNumber={2}
+		id={'requestingSupport'}
+	/>
+);
+
+const OfferingSupport = () => (
+	<Category title={'Offering Support'} sheetNumber={3} />
+);
+
+const UsingTheApp = () => <Category title={'Using The App'} sheetNumber={4} />;
+
+interface Props {}
 
 const Faq: FC<Props> = () => {
-  return (
-    <div className="page-container">
-      <header id="topOfPage">
-        <h2>Frequently Asked Questions</h2>
-      </header>
-      <section className="faq">
-        <ul className="faq__categories">
-          <MenuItem
-            title="General"
-            href="#general"
-          />
-          <MenuItem
-            title="Requesting support"
-            href="#requestingSupport"
-          />
-          <MenuItem
-            title="Offering support"
-            href="#offeringSupport"
-          />
-          <MenuItem
-            title="Using the app"
-            href="#usingTheApp"
-          />
-        </ul>
+	return (
+		<div className="page-container">
+			<header id="topOfPage">
+				<h2>Frequently Asked Questions</h2>
+			</header>
+			<section className="faq">
+				<ul className="faq__categories">
+					<MenuItem title="General" href="#general" />
+					<MenuItem title="Requesting support" href="#requestingSupport" />
+					<MenuItem title="Offering support" href="#offeringSupport" />
+					<MenuItem title="Using the app" href="#usingTheApp" />
+				</ul>
 
-        <div className="faq__items">
-          <ul id="general" className="faq__group">
-            <li className="faq__title">
-              <h2>General</h2>
-            </li>
-            <ContentItem
-              title="What is SKCE Mutual Aid (South King County and Eastside Covid 19 Mutual Aid)?"
-              content=" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae quidem blanditiis delectus corporis, possimus officia sint sequi ex tenetur id impedit est pariatur iure animi non a ratione reiciendis nihil sed consequatur atque repellendus fugit perspiciatis rerum et. Dolorum consequuntur fugit deleniti, soluta fuga nobis. Ducimus blanditiis velit sit iste delectus obcaecati debitis omnis, assumenda accusamus cumque perferendis eos aut quidem! Aut, totam rerum, cupiditate quae aperiam voluptas rem inventore quas, ex maxime culpa nam soluta labore at amet nihil laborum? Explicabo numquam, sit fugit, voluptatem autem atque quis quam voluptate fugiat earum rem hic, reprehenderit quaerat tempore at. Aperiam."
-            />
-            <ContentItem
-              title="How did SKCE Mutual Aid start?"
-              content="Dolorum consequuntur fugit deleniti, soluta fuga nobis. Ducimus blanditiis velit sit iste delectus obcaecati debitis omnis, assumenda accusamus cumque perferendis eos aut quidem!"
-            />
-            <ContentItem
-              title="How many requests do you get a month?"
-              content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae quidem blanditiis delectus corporis, possimus officia sint sequi ex tenetur id impedit est pariatur iure animi non a ratione reiciendis nihil sed consequatur atque repellendus fugit perspiciatis rerum et."
-            />
-            <ContentItem
-              title="How much cash do you redistribute?"
-              content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae quidem blanditiis delectus corporis, possimus officia sint sequi ex tenetur id impedit est pariatur iure animi non a ratione"
-            />
-            <ContentItem
-              title="Who are the organizers?"
-              content="Quae quidem blanditiis delectus corporis, possimus officia sint sequi ex tenetur id impedit est pariatur iure animi non a ratione reiciendis nihil sed consequatur atque repellendus fugit perspiciatis rerum et. Dolorum consequuntur fugit deleniti."
-            />
-            <ContentItem
-              title="Who pays for essential items?"
-              content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae quidem blanditiis delectus corporis, possimus officia sint sequi ex tenetur id impedit est pariatur iure animi non a ratione reiciendis nihil sed consequatur atque repellendus fugit perspiciatis rerum et. Dolorum consequuntur fugit deleniti, soluta fuga nobis. Ducimus blanditiis velit sit iste delectus obcaecati debitis omnis, assumenda accusamus cumque perferendis eos aut quidem! Aut, totam rerum, cupiditate quae aperiam voluptas rem inventore quas, ex maxime culpa nam soluta labore at amet nihil laborum? Explicabo numquam, sit fugit, voluptatem autem atque quis quam voluptate fugiat earum rem hic, reprehenderit quaerat tempore at. Aperiam."
-            />
-
-            <ContentItem
-              title="How do I become an organizer of my own neighborhood mutual aid network?"
-              content=" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae quidem blanditiis delectus corporis, possimus officia sint sequi ex tenetur id impedit est pariatur iure animi non a ratione"
-            />
-            <ContentItem
-              title="How do I contact the organizers?"
-              content="Aut, totam rerum, cupiditate quae aperiam voluptas rem inventore quas, ex maxime culpa nam soluta labore at amet nihil laborum?"
-            />
-          </ul>
-          <ul id="requestingSupport" className="faq__group">
-            <li className="faq__title">
-              <h2>Requesting support</h2>
-            </li>
-          </ul>
-
-          <ul id="offeringSupport" className="faq__group">
-            <li className="faq__title">
-              <h2>Offering support</h2>
-            </li>
-          </ul>
-
-          <ul id="usingTheApp" className="faq__group">
-            <li className="faq__title">
-              <h2>Using the App</h2>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </div>
-  )
+				<div className="faq__items">
+					<General />
+					<RequestingSupport />
+					<OfferingSupport />
+					<UsingTheApp />
+				</div>
+			</section>
+		</div>
+	);
 };
 
 export default Faq;
