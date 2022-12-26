@@ -1,0 +1,33 @@
+label {
+    font-weight: bold;
+    display: flex;
+    /* margin-bottom: 5px; */
+}
+
+input + label {
+    font-weight: normal;
+    display: flex;
+    /* margin-bottom: 5px; */
+    font-size: small;
+}
+
+.request-form-layout {
+    justify-content: center;
+}
+
+.my-form-control {
+    margin-bottom: 20px;
+}
+
+.error {
+    color: #dc3545;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+}
+
+.required {
+    color: #dc3545;
+    padding-top: 3px;
+    font-size: 9px;
+}

@@ -1,0 +1,22 @@
+.link-button {
+    display: block;
+    border: none !important;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.link-button:hover,
+.link-button:focus {
+    text-decoration: underline;
+    color: #005bbd;
+}
+
+.confirm-button:hover {
+    color: #8a2a4c !important;
+    background-color: transparent !important;
+}
+.confirm-button {
+    color: white !important;
+    background-color: #b44c70 !important;
+    border: 1px solid #b44c70 !important;
+}

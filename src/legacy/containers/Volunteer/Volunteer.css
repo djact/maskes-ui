@@ -1,0 +1,80 @@
+.card_columns {
+    column-count: 1;
+}
+
+@media (min-width: 768px) {
+    .card_columns {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card_columns {
+        column-count: 3;
+    }
+}
+
+.card-title {
+    margin-bottom: 0;
+}
+
+.request_shadow:hover {
+    box-shadow: 1px 1px 5px #e9e9e9;
+}
+
+.request_accordion {
+    cursor: pointer;
+    vertical-align: bottom;
+    background-color: #ffffff;
+}
+
+.request_accordion:hover {
+    background-color: #fafafa;
+}
+
+.my-support-button {
+    color: black !important;
+    background-color: #ffae00 !important;
+    border: 1px solid #ffae00 !important;
+    box-shadow: 1px 1px 6px #a5a5a5;
+}
+
+.my-support-button:hover {
+    background-color: #ffbb27 !important;
+    box-shadow: 2px 1px 8px #a9a9a9;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    margin-top: -1px;
+}
+
+.volunteer-button {
+    color: #f7b015 !important;
+    background-color: #343a40 !important;
+    border: 0 !important;
+    box-shadow: 1px 1px 6px #a5a5a5;
+}
+
+.volunteer-button:hover {
+    color: black !important;
+    background-color: #f7b015 !important;
+    box-shadow: 2px 1px 8px #a9a9a9;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    margin-top: -1px;
+}
+
+.custom-link-button {
+    background-color: transparent;
+    color: #0275d8;
+    cursor: pointer;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-link-button:hover,
+.custom-link-button:focus {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #0057a4;
+}
