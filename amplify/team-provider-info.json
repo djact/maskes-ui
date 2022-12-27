@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-maskesui-dev-181806-authRole",
+            "UnauthRoleArn": "arn:aws:iam::614042320221:role/amplify-maskesui-dev-181806-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::614042320221:role/amplify-maskesui-dev-181806-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-maskesui-dev-181806-deployment",
+            "UnauthRoleName": "amplify-maskesui-dev-181806-unauthRole",
+            "StackName": "amplify-maskesui-dev-181806",
+            "StackId": "arn:aws:cloudformation:us-west-2:614042320221:stack/amplify-maskesui-dev-181806/b378afa0-858c-11ed-9216-0ad38e10d6d1",
+            "AmplifyAppId": "d37uxo9sq3wcyy"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d37uxo9sq3wcyy",
+                    "type": "cicd"
+                }
+            }
+        }
+    }
+}

@@ -8,7 +8,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "pull:amplify": "yarn amplify pull"
     },
     "dependencies": {
         "@next/font": "13.1.1",
