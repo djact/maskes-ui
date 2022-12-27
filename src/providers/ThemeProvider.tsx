@@ -1,10 +1,9 @@
-import { createContext, FC } from 'react'
 import {
-    ThemeProvider as AmplifyThemeProvider,
     ColorMode,
+    ThemeProvider as AmplifyThemeProvider,
 } from '@aws-amplify/ui-react'
-import theme from '../styles/theme'
-import { useState } from 'react'
+import theme from '@styles/theme'
+import { createContext, FC, useState } from 'react'
 
 const initialValues = {
     colorMode: 'system' as ColorMode,
