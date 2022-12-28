@@ -1,4 +1,5 @@
+import Layout from './Layout'
 import Login from './Login'
 import RequireAuth from './RequireAuth'
 
-export { Login, RequireAuth }
+export { Layout, Login, RequireAuth }
