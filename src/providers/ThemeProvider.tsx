@@ -16,10 +16,15 @@ interface ThemeProviderProps {
     children: React.ReactNode
 }
 
+/**
+ * ThemeProvider is a wrapper for the AmplifyThemeProvider
+ * that allows us to set the colorMode of the theme
+ * and pass it down to the AmplifyThemeProvider
+ **/
 export const ThemeProvider: FC<ThemeProviderProps> = (props) => {
     const { children } = props
-
-    const [colorMode, setColorMode] = useState<ColorMode>('system')
+    // set default colorMode
+    const [colorMode, setColorMode] = useState<ColorMode>('light')
 
     const setTheme = (colorMode: ColorMode) => {
         setColorMode(colorMode)
