@@ -38,3 +38,8 @@ next-env.d.ts
 
 # legacy code
 */legacy
+
+# amplify
+/amplify
+*/ui-components
+aws-exports.js
