@@ -1,5 +1,7 @@
 import { Login } from '@components'
 
-export default () => {
+const LoginPage = () => {
     return <Login />
 }
+
+export default LoginPage
