@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { ThemeProvider } from './ThemeProvider'
 import { Authenticator } from '@aws-amplify/ui-react'
+import SSRProvider from 'react-bootstrap/SSRProvider'
 
 interface ProvidersProps {
     children: React.ReactNode
@@ -11,9 +12,11 @@ interface ProvidersProps {
 const Providers: FC<ProvidersProps> = (props) => {
     const { children } = props
     return (
-        <ThemeProvider>
-            <Authenticator.Provider>{children}</Authenticator.Provider>
-        </ThemeProvider>
+        <SSRProvider>
+            <ThemeProvider>
+                <Authenticator.Provider>{children}</Authenticator.Provider>
+            </ThemeProvider>
+        </SSRProvider>
     )
 }
 
