@@ -19,7 +19,17 @@
         }
       },
       "auth": {
-        "maskesuia5d1df9e": {}
+        "maskesuia5d1df9e": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "AdminQueriesfce138bb": {
+          "deploymentBucketName": "amplify-maskesui-dev-181806-deployment",
+          "s3Key": "amplify-builds/AdminQueriesfce138bb-6e336f35553953585234-build.zip"
+        }
+      },
+      "api": {
+        "AdminQueries": {}
       }
     }
   }
