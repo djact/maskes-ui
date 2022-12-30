@@ -1,4 +1,5 @@
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react'
+import '@aws-amplify/ui-react/styles.css'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
