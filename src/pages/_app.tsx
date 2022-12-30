@@ -1,3 +1,4 @@
+import { Layout } from '@components'
 import RequireAuth from '@components/RequireAuth'
 import Providers from '@providers'
 import '@styles/globals.css'
@@ -16,11 +17,13 @@ const App = (props: AppProps) => {
 
     return (
         <Providers>
-            {(Component.auth && (
-                <RequireAuth>
-                    <Component {...pageProps} />
-                </RequireAuth>
-            )) || <Component {...pageProps} />}
+            <Layout>
+                {(Component.auth && (
+                    <RequireAuth>
+                        <Component {...pageProps} />
+                    </RequireAuth>
+                )) || <Component {...pageProps} />}
+            </Layout>
         </Providers>
     )
 }
