@@ -42,4 +42,8 @@ next-env.d.ts
 # amplify
 /amplify
 */ui-components
+src/models
+src/graphql
+API.ts
+.graphqlconfig.yml
 aws-exports.js
