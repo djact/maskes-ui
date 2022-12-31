@@ -38,3 +38,12 @@ next-env.d.ts
 
 # legacy code
 */legacy
+
+# amplify
+/amplify
+*/ui-components
+src/models
+src/graphql
+API.ts
+.graphqlconfig.yml
+aws-exports.js
