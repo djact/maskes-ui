@@ -5,3 +5,5 @@
  **************************************************************************/
 
 export { default as studioTheme } from "./studioTheme";
+export { default as AccountCreateForm } from "./AccountCreateForm";
+export { default as AccountUpdateForm } from "./AccountUpdateForm";
