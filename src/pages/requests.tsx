@@ -1,8 +1,9 @@
 import { Heading } from '@aws-amplify/ui-react'
+import Link from 'next/link'
 
 const RequestsPage = () => {
-    const message = 'REQUESTS AUTHENTICATED PAGE'
-    return <Heading level={5}>{message}</Heading>
+    const message = <Link href="/test">TEST LINK</Link>
+    return <Heading level={1}>{message}</Heading>
 }
 
 RequestsPage.auth = true
