@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { ThemeProvider } from './ThemeProvider'
 import { Authenticator } from '@aws-amplify/ui-react'
-import SSRProvider from 'react-bootstrap/SSRProvider'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 interface ProvidersProps {
     children: React.ReactNode
@@ -9,14 +9,16 @@ interface ProvidersProps {
 /**
  * Providers includes all the providers that are used in the application
  **/
+const queryClient = new QueryClient()
+
 const Providers: FC<ProvidersProps> = (props) => {
     const { children } = props
     return (
-        <SSRProvider>
+        <QueryClientProvider client={queryClient}>
             <ThemeProvider>
                 <Authenticator.Provider>{children}</Authenticator.Provider>
             </ThemeProvider>
-        </SSRProvider>
+        </QueryClientProvider>
     )
 }
 

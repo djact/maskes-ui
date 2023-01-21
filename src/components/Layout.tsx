@@ -1,6 +1,6 @@
-import { Text } from '@aws-amplify/ui-react'
+import { Text, useTheme, View, Flex } from '@aws-amplify/ui-react'
 import { FC } from 'react'
-import NavBar from './NavBar'
+import NavBar from './NavBar/NavBar'
 
 type LayoutProps = {
     children: React.ReactNode
@@ -8,25 +8,17 @@ type LayoutProps = {
 
 const Layout: FC<LayoutProps> = (props) => {
     const { children } = props
-
+    const { tokens } = useTheme()
     return (
-        <div>
-            <NavBar />
-            <div
-                style={{
-                    minHeight: '90vh',
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                {children}
-            </div>
-            <div style={{ textAlign: 'center' }}>
-                <Text>© {new Date().getFullYear()} maskes</Text>
-            </div>
-        </div>
+        <View backgroundColor={tokens.colors.background.primary}>
+            <Flex direction="column" height="100vh">
+                <NavBar />
+                <View flex={1}>{children}</View>
+                <Text padding="large" textAlign="center">
+                    © {new Date().getFullYear()} maskes
+                </Text>
+            </Flex>
+        </View>
     )
 }
 
