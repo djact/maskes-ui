@@ -5,6 +5,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
+        "pre-build": "yarn pull:amplify -y",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
